@@ -1,0 +1,5 @@
+C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\Modelos\bin\Release\Modelos.dll
+C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\Modelos\bin\Release\Modelos.pdb
+C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\Modelos\obj\Release\Modelos.csproj.CoreCompileInputs.cache
+C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\Modelos\obj\Release\Modelos.dll
+C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\Modelos\obj\Release\Modelos.pdb
