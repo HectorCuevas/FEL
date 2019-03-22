@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:07:04</publishTime>
     </File>
     <File Include="bin/FELFactura.dll">
-      <publishTime>03/20/2019 13:27:56</publishTime>
+      <publishTime>03/21/2019 22:34:35</publishTime>
     </File>
     <File Include="bin/FELFactura.pdb">
-      <publishTime>03/20/2019 13:27:56</publishTime>
+      <publishTime>03/21/2019 22:34:35</publishTime>
     </File>
     <File Include="bin/Firma.dll">
       <publishTime>03/20/2019 13:27:55</publishTime>
@@ -187,7 +187,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2019 21:28:54</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/20/2019 10:18:50</publishTime>
+      <publishTime>03/21/2019 13:50:30</publishTime>
     </File>
   </ItemGroup>
 </Project>

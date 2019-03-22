@@ -26,7 +26,7 @@ namespace FELFactura
             XmlNodeList resNodo = xmlResponse.GetElementsByTagName("tipo_respuesta");
             string error = resNodo[0].InnerXml;
             bool errores = false;
-            if ("0".Equals(error))
+            if ("0".Equals(error.ToString()))
             {
                 errores = true;
             }

@@ -27,11 +27,9 @@ namespace FELFactura
             var stream = request.GetRequestStream();
             stream.Write(data, 0, data.Length);
             
-            //var response = (HttpWebResponse)request.GetResponse();
-           //string responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            String responseString = reader.ReadToEnd();
+           var response = (HttpWebResponse)request.GetResponse();
+           string responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            
             XmlDocument xmlDoc2 = new XmlDocument();
             xmlDoc2.LoadXml(responseString);
             return xmlDoc2;
@@ -41,7 +39,11 @@ namespace FELFactura
         }
         private String getPostData(String data)
         {
-            String request = "<RegistraDocumentoXMLRequest id=\""+Guid.NewGuid()+"\">" +
+    
+
+            string uuid = Guid.NewGuid().ToString().ToUpper();
+
+             String request = "<RegistraDocumentoXMLRequest id=\""+uuid+"\">" +
                             "<xml_dte>" +
                             " <![CDATA[" + data + "]]>" +
                             "</xml_dte>"+

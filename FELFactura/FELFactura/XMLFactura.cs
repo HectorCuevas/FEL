@@ -31,12 +31,16 @@ namespace FELFactura
             XmlToDataSet( XMLCompany, XMLInvoice,  XMLDetailInvoce);
             //llenar estructuras
             ReaderDataset();
+            
             //armar xml
             getXML();
+            
             //firmar xml por certificado
-            v_rootxml = v_rootxml + @"\" + fac_num.Trim() + ".xml";
+            var nombre = fac_num.Trim() + ".xml";
+            v_rootxml = v_rootxml + @"\" + nombre;
 
-            XmlDocument myXML = FirmaDocumento.FirmarDocumento(Constants.URL_CERTIFICADO, Constants.URL_CERTIFICADO_CONTRASENIA, path, fac_num.Trim() + ".xml",  path);
+            XmlDocument myXML = FirmaDocumento.FirmarDocumento(Constants.URL_CERTIFICADO, Constants.URL_CERTIFICADO_CONTRASENIA, path, nombre,  path);
+
             return myXML.ToString();
 
         }
@@ -71,276 +75,19 @@ namespace FELFactura
 
 
         //Lectura de Documentos
-        private bool ReaderDataset()
+        private void ReaderDataset()
         {
 
             LlenarEstructuras.DatosGenerales(dstcompanyxml,datosGenerales);
-            DatosEmisor();
-            DatosReceptor();
-            DatosItems();
-           return false;
+            LlenarEstructuras.DatosEmisor(dstinvoicexml,  emisor);
+            LlenarEstructuras.DatosReceptor( dstinvoicexml,  receptor, datosGenerales);
+            LlenarEstructuras.DatosItems(dstdetailinvoicexml, items);
+           
         }
-
-        private void DatosGenerales()
-        {
-            foreach (DataRow reader in dstcompanyxml.Tables[0].Rows)
-            {
-                var CodigoMoneda = reader["codigomoneda"];
-                if (CodigoMoneda != null)
-                {
-                    this.datosGenerales.CodigoMoneda = CodigoMoneda.ToString();
-
-                }
-       
-                var NumeroAcceso = reader["numeroaccesso"];
-                if (NumeroAcceso != null)
-                {
-                    this.datosGenerales.NumeroAcceso = NumeroAcceso.ToString();
-
-                }
 
        
-                this.datosGenerales.Tipo = Constants.TIPO_FACTURA;
 
 
-
-
-            }
-
-        }
-
-
-        private void DatosEmisor()
-        {
-            foreach (DataRow reader in dstcompanyxml.Tables[0].Rows)
-            {
-                var AfiliacionIVA = reader["afiliacioniva"];
-                if (AfiliacionIVA != null)
-                {
-                    this.emisor.AfiliacionIVA = AfiliacionIVA.ToString();
-
-                }
-                var CodigoEstablecimiento = reader["codigoestablecimiento"];
-                if (CodigoEstablecimiento != null)
-                {
-                    this.emisor.CodigoEstablecimiento = CodigoEstablecimiento.ToString();
-
-                }
-                var CorreoEmisor = reader["correoemisor"];
-                if (CorreoEmisor != null)
-                {
-                    this.emisor.CorreoEmisor = CorreoEmisor.ToString();
-
-                }
-
-                var NITEmisor = reader["nitemisor"];
-                if (NITEmisor != null)
-                {
-                    this.emisor.NITEmisor = NITEmisor.ToString();
-
-                }
-                var NombreComercial = reader["nombrecomercial"];
-                if (NombreComercial != null)
-                {
-                    this.emisor.NombreComercial = NombreComercial.ToString();
-
-                }
-                var NombreEmisor = reader["nombreemisor"];
-                if (NombreEmisor != null)
-                {
-                    this.emisor.NombreEmisor = NombreEmisor.ToString();
-
-                }
-                var Direccion = reader["direccion"];
-                if (Direccion != null)
-                {
-                    this.emisor.Direccion = Direccion.ToString();
-
-                }
-                var CodigoPostal = reader["codigopostal"];
-                if (CodigoPostal != null)
-                {
-                    this.emisor.CodigoPostal = CodigoPostal.ToString();
-
-                }
-                var Municipio = reader["municipio"];
-                if (Municipio != null)
-                {
-                    this.emisor.Municipio = Municipio.ToString();
-
-                }
-                var Departamento = reader["departamento"];
-                if (Departamento != null)
-                {
-                    this.emisor.Departamento = Departamento.ToString();
-
-
-                }
-                var Pais = reader["pais"];
-                if (Pais != null)
-                {
-                    this.emisor.Pais = Pais.ToString();
-
-
-                }
-            
-        
-        }
-
-    }
-
-
-        private void DatosReceptor()
-        {
-            foreach (DataRow reader in dstinvoicexml.Tables[0].Rows)
-            {
-
-                var FechaHoraEmision = reader["fec_emis"];
-                if (FechaHoraEmision != null)
-                {
-                    this.datosGenerales.FechaHoraEmision = FechaHoraEmision.ToString();
-
-                }
-
-                var CorreoReceptor = reader["correoreceptor"];
-                if (CorreoReceptor != null)
-                {
-                    this.receptor.CorreoReceptor = CorreoReceptor.ToString();
-
-                }
-                var IDReceptor = reader["idreceptor"];
-                if (IDReceptor != null)
-                {
-                    this.receptor.IDReceptor = IDReceptor.ToString();
-
-                }
-                var NombreReceptor = reader["nombrereceptor"];
-                if (NombreReceptor != null)
-                {
-                    this.receptor.NombreReceptor = NombreReceptor.ToString();
-
-                }
-
-                var Direccion = reader["direccion"];
-                if (Direccion != null)
-                {
-                    this.emisor.Direccion = Direccion.ToString();
-
-                }
-                var CodigoPostal = reader["codigopostal"];
-                if (CodigoPostal != null)
-                {
-                    this.emisor.CodigoPostal = CodigoPostal.ToString();
-
-                }
-                var Municipio = reader["municipio"];
-                if (Municipio != null)
-                {
-                    this.emisor.Municipio = Municipio.ToString();
-
-                }
-                var Departamento = reader["departamento"];
-                if (Departamento != null)
-                {
-                    this.emisor.Departamento = Departamento.ToString();
-
-                }
-                var Pais = reader["pais"];
-                if (Pais != null)
-                {
-                    this.emisor.Pais = Pais.ToString();
-
-                }
-              
-            }
-
-        }
-        private void DatosItems()
-        {
-            foreach (DataRow reader in dstdetailinvoicexml.Tables[0].Rows)
-            {
-                Item item = new Item();
-                Impuesto impuesto = new Impuesto();
-                //impuesto
-                var impuestonombrecorto = reader["impuestonombrecorto"];
-                if (impuestonombrecorto != null)
-                {
-                    impuesto.NombreCorto = impuestonombrecorto.ToString();
-
-                }
-                var codigounidadgravable = reader["codigounidadgravable"];
-                if (codigounidadgravable != null)
-                {
-                    impuesto.CodigoUnidadGravable = codigounidadgravable.ToString();
-
-                }
-                var montoimpuesto = reader["montoimpuesto"];
-                if (montoimpuesto != null)
-                {
-                    impuesto.MontoImpuesto = montoimpuesto.ToString();
-
-                }
-                var montogravable = reader["montogravable"];
-                if (montogravable != null)
-                {
-                    impuesto.MontoGravable = montogravable.ToString();
-
-                }
-                //item en general
-                var bienoservicio = reader["bienoservicio"];
-                if (bienoservicio != null)
-                {
-                    item.BienOServicio= bienoservicio.ToString();
-
-                }
-                var descripcion = reader["descripcion"];
-                if (descripcion != null)
-                {
-                    item.Descripcion = descripcion.ToString();
-
-                }
-                var numerolinea = reader["numerolinea"];
-                if (numerolinea != null)
-                {
-                    item.NumeroLinea = numerolinea.ToString();
-
-                }
-                var cantidad = reader["cantidad"];
-                if (cantidad != null)
-                {
-                    item.Cantidad = cantidad.ToString();
-
-                }
-
-                var precio = reader["precio"];
-                if (precio != null)
-                {
-                    item.Precio = precio.ToString();
-
-                }
-                var preciounitario = reader["preciounitario"];
-                if (preciounitario != null)
-                {
-                    item.PrecioUnitario = preciounitario.ToString();
-
-                }
-
-                var total = reader["total"];
-                if (total != null)
-                {
-                    item.Total = total.ToString();
-
-                }
-
-                var descuento = reader["descuento"];
-                if (descuento != null)
-                {
-                    item.Descuento = descuento.ToString();
-
-                }
-
-            }
-        }
 
            private String getXML()
         {
