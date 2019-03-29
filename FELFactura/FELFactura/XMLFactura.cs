@@ -41,7 +41,7 @@ namespace FELFactura
 
             XmlDocument myXML = FirmaDocumento.FirmarDocumento(Constants.URL_CERTIFICADO, Constants.URL_CERTIFICADO_CONTRASENIA, path, nombre,  path);
 
-            return myXML.ToString();
+            return myXML.InnerXml;
 
         }
 
@@ -78,11 +78,11 @@ namespace FELFactura
         private void ReaderDataset()
         {
 
-            LlenarEstructuras.DatosGenerales(dstcompanyxml,datosGenerales);
+            LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales);
             LlenarEstructuras.DatosEmisor(dstinvoicexml,  emisor);
             LlenarEstructuras.DatosReceptor( dstinvoicexml,  receptor, datosGenerales);
             LlenarEstructuras.DatosItems(dstdetailinvoicexml, items);
-           
+            LlenarEstructuras.Totales(dstinvoicexml, totales,items);
         }
 
        
@@ -115,7 +115,7 @@ namespace FELFactura
 
             //datos generales
             XElement DatosGenerales = new XElement(dte + "DatosGenerales", new XAttribute("CodigoMoneda", this.datosGenerales.CodigoMoneda), 
-                new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision), new XAttribute("NumeroAcceso", this.datosGenerales.NumeroAcceso), new XAttribute("Tipo", this.datosGenerales.Tipo));
+                new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision), new XAttribute("Tipo", this.datosGenerales.Tipo));
             DatosEmision.Add(DatosGenerales);
 
             //datos emisor
@@ -162,9 +162,10 @@ namespace FELFactura
             //frases
             XElement Frases = new XElement(dte + "Frases");
             DatosEmision.Add(Frases);
-            XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", Constants.FRASE));
+            XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", Constants.FRASE_CODIGO_1), new XAttribute("TipoFrase", Constants.FRASE_1));
             Frases.Add(Frase1);
-
+            //XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", Constants.FRASE_CODIGO_2), new XAttribute("TipoFrase", Constants.FRASE_2));
+            //Frases.Add(Frase2);
 
             // detalle de factura 
 
@@ -206,12 +207,12 @@ namespace FELFactura
                             XElement NombreCorto = new XElement(dte + "NombreCorto", im.NombreCorto);
                             XElement CodigoUnidadGravable = new XElement(dte + "CodigoUnidadGravable", im.CodigoUnidadGravable);
                             XElement MontoGravable = new XElement(dte + "MontoGravable", im.MontoGravable);
-                            XElement CantidadUnidadesGravables = new XElement(dte + "CantidadUnidadesGravables", im.CantidadUnidadesGravables);
+                          //  XElement CantidadUnidadesGravables = new XElement(dte + "CantidadUnidadesGravables", im.CantidadUnidadesGravables);
                             XElement MontoImpuesto = new XElement(dte + "MontoImpuesto", im.MontoImpuesto);
                             Impuesto.Add(NombreCorto);
                             Impuesto.Add(CodigoUnidadGravable);
                             Impuesto.Add(MontoGravable);
-                            Impuesto.Add(CantidadUnidadesGravables);
+                            //Impuesto.Add(CantidadUnidadesGravables);
                             Impuesto.Add(MontoImpuesto);
                             Impuestos.Add(Impuesto);
                         }                    
@@ -224,29 +225,13 @@ namespace FELFactura
 
             //total impuestos
             XElement TotalImpuestos = new XElement(dte + "TotalImpuestos");
-            XElement TotalImpuesto = new XElement(dte + "TotalImpuesto", new XAttribute("NombreCorto", "IVA"), new XAttribute("TotalMontoImpuesto", "5.40"));
+            XElement TotalImpuesto = new XElement(dte + "TotalImpuesto", new XAttribute("NombreCorto", totales.NombreCorto), new XAttribute("TotalMontoImpuesto", totales.TotalMontoImpuesto));
             TotalImpuestos.Add(TotalImpuesto);
             Totales.Add(TotalImpuestos);
 
             //total general
-            XElement GranTotal = new XElement(dte + "GranTotal", "64.50");
+            XElement GranTotal = new XElement(dte + "GranTotal", totales.GranTotal);
             Totales.Add(GranTotal);
-
-            //datos del certificador
-            XElement Certificacion = new XElement(dte + "Certificacion");
-            XElement NITCertificador = new XElement(dte + "NITCertificador", "50510231");
-            Certificacion.Add(NITCertificador);
-
-            XElement NombreCertificador = new XElement(dte + "NombreCertificador", "Megaprint, S.A.");
-            Certificacion.Add(NombreCertificador);
-
-            XElement NumeroAutorizacion = new XElement(dte + "NumeroAutorizacion", new XAttribute("Numero", "2684359144"), new XAttribute("Serie", "9DD87A39"), "9DD87A39-A000-11E8-98D0-529269FB1459");
-            Certificacion.Add(NumeroAutorizacion);
-
-            XElement FechaHoraCertificacion = new XElement(dte + "FechaHoraCertificacion", "2018-08-14T12:00:00-06:00");
-            Certificacion.Add(FechaHoraCertificacion);
-
-            DTE.Add(Certificacion);
 
 
 

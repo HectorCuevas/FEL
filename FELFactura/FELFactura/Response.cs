@@ -1,49 +1,24 @@
 ﻿using System;
-using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Services;
 using System.Xml;
+using System.Data;
 using System.IO;
-
 namespace FELFactura
 {
-    [WebService(Namespace = "http://tempuri.org/")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [System.ComponentModel.ToolboxItem(false)]
-    public class SolicitarToken : System.Web.Services.WebService
+    public class Response
     {
-        static GetRequestToken ws = Instancia.getInstancia();
-        DataSet strreponsexml = new DataSet();
-        [WebMethod]
-        public DataSet getToken(String user, String apikey)
-        {
 
-            XmlDocument xmlResponse = ws.getToken(user, apikey);
-            XmlNodeList tokenNodo = xmlResponse.GetElementsByTagName("token");
-            string token = tokenNodo[0].InnerXml;
-            XmlNodeList resNodo = xmlResponse.GetElementsByTagName("tipo_respuesta");
-            string error = resNodo[0].InnerXml;
-            bool errores = false;
-            if ("0".Equals(error))
-            {
-                errores = true;
-            }
-
-            GetResponseXML(token, errores);
-            return strreponsexml;
-        }
-
-        private void GetResponseXML(string token, bool errores)
+        public static DataSet GetResponseXML(String valor, string nombre, bool errores, DataSet strreponsexml)
         {
             try
             {
                 //Vaciando Respuesta
                 strreponsexml = new DataSet();
                 //Evaluando token
-                if (token == null)
-                { token = " "; }
+                if (valor == null)
+                { valor = " "; }
 
                 //Evaluando Error Text
                 //Creando XML
@@ -56,12 +31,12 @@ namespace FELFactura
                 XmlNode xtable = xmlDoc.CreateElement("Table");
                 rootNode.AppendChild(xtable);
                 //token
-                XmlNode xtoken = xmlDoc.CreateElement("token");
-                if (token != null && token.Length > 0)
+                XmlNode xvalor = xmlDoc.CreateElement(nombre);
+                if (valor != null && valor.Length > 0)
                 {
-                    xtoken.InnerText = token.ToString();
+                    xvalor.InnerText = valor.ToString();
                 }
-                xtable.AppendChild(xtoken);
+                xtable.AppendChild(xvalor);
 
                 //Error
                 XmlNode xerror = xmlDoc.CreateElement("blnerror");
@@ -72,11 +47,13 @@ namespace FELFactura
                 xmlDoc.WriteTo(xmlTextWriter);
                 StringReader reader = new StringReader(stringWriter.ToString());
                 strreponsexml.ReadXml(reader);
+               
             }
             catch
             {
-
+        
             }
+            return strreponsexml;
         }
 
     }

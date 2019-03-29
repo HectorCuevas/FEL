@@ -54,7 +54,6 @@ C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Debug\BouncyCastle.Crypto.
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Debug\FirmaXadesNet.dll
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Debug\Microsoft.Xades.dll
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Debug\BouncyCastle.Crypto.pdb
-C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.csprojAssemblyReference.cache
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.csproj.CoreCompileInputs.cache
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.csproj.CopyComplete
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.dll

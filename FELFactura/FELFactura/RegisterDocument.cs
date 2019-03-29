@@ -6,11 +6,12 @@ using System.Net;
 using System.Xml;
 using System.Text;
 using System.IO;
+using System.Data;
 namespace FELFactura
 {
     public class RegisterDocument
     {
-        static GetRequestToken ws = Instancia.getInstancia();
+    
         
         public XmlDocument registerDte(String token,String dataXml)
         {
@@ -29,25 +30,31 @@ namespace FELFactura
             
            var response = (HttpWebResponse)request.GetResponse();
            string responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            
             XmlDocument xmlDoc2 = new XmlDocument();
             xmlDoc2.LoadXml(responseString);
             return xmlDoc2;
 
         
 
+
+
         }
+
         private String getPostData(String data)
         {
     
 
             string uuid = Guid.NewGuid().ToString().ToUpper();
 
-             String request = "<RegistraDocumentoXMLRequest id=\""+uuid+"\">" +
-                            "<xml_dte>" +
-                            " <![CDATA[" + data + "]]>" +
-                            "</xml_dte>"+
+            String request = "<?xml version='1.0' encoding='UTF-8'?>\n" +
+              "<RegistraDocumentoXMLRequest id=\"" + uuid + "\">\n" +
+                        "<xml_dte>" +
+                            " <![CDATA[" + data + "]]>\n" +
+                            "</xml_dte>\n"+
                             "</RegistraDocumentoXMLRequest>";
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\" + "request.txt";
+            System.IO.File.WriteAllText(path, request);
             return request;
         }
     }

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Services;
+using System.Data;
 using System.Xml;
+
+using System.IO;
 namespace FELFactura
 {
     /// <summary>
@@ -17,17 +17,172 @@ namespace FELFactura
     public class RegisterDocumentWS : System.Web.Services.WebService
     {
         static RegisterDocument ws = Instancia.getInstancia(1);
+        ValidateDocument wsvalidate = new ValidateDocument();
         XMLFactura xml = new XMLFactura();
+        DataSet strreponsexml = new DataSet();
+
         [WebMethod]
-        public XmlDocument registerDocument(String token,
+        public DataSet registerDocument(String token,
             String XMLCompany, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num)
         {
-     //       token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJvcGVuaWQiXSwiZXhwIjoxNTg0NTY3NTMxLCJhdXRob3JpdGllcyI6WyJST0xFX0VNSVNPUiJdLCJqdGkiOiJhYjc0MDdlOS0wNzdmLTRjZDItOWYwYS03YmQ2M2Y4ZjdjMzAiLCJjbGllbnRfaWQiOiIzMjI1NjA3In0.avnuVwiKA46K-7gfz8IEc6Om9--tMxwi4P4NLntz-KIc1Ukmf9Ybk_brsD4qW6gDbm5A3DlCisSyHEAaVNPPWW8vTuJjHWZxvxSNbDKr8eG6_AHX20xVNipOZQipWyGNQ3u3xetT23Jmfm0elwNVhlOuO9Re8Rh1Lvatcceb-A1O80reqdQBvm0QEXkDYxTOVmacVWxr75YYzz_LbCM7s14EY9CPoYbsbqmuQMEiuLPn_MmI2md1wkuDnXEQUMGLsiXM7t4vAYvxbAM03iXeD-Uojjdp0dL9PAzq5RdepsNO5J5qyvK820q9sXs0hZHrH1sTxSgdppzXHeQKZFCz0Q";
-      //     XMLCompany = "<?xml version = \"1.0\" encoding=\"Windows - 1252\" standalone=\"yes\"?> <VFPData> <temp_fact_company> <codigomoneda>GTQ</codigomoneda> <numeroaccesso>1</numeroaccesso> <tipodocumento>FACT</tipodocumento> <afiliacioniva>GEN</afiliacioniva> <codigoestablecimiento>01</codigoestablecimiento> <correoemisor>jfinanciero@mayaquimicos.com.gt</correoemisor> <nitemisor>3225607</nitemisor> <nombrecomercial>Mayaquimicos</nombrecomercial> <nombreemisor>Mayaquimicos</nombreemisor> <direccion>Guatemala </direccion> <codigopostal>123</codigopostal> <departamento>Guatemala</departamento> <municipio>Guatemala</municipio> <pais>GT</pais> <apikey>hwI5RFEFm9wOnz727R6jLGu</apikey> </temp_fact_company> </VFPData>";
-        //    XMLInvoice = "<?xml version = \"1.0\" encoding=\"Windows - 1252\" standalone=\"yes\"?> <VFPData> <temp_fact_header> <fact_num>20002466</fact_num> <fec_emis>2019-03-14T00:00:00</fec_emis> <correoreceptor/> <idreceptor>0000</idreceptor> <nombrereceptor>Acoustic Geophysical Services, Belize Limited</nombrereceptor> <direccion/> <codigopostal/> <pais>Guatemala</pais> <departamento>Guatemala</departamento> <municipio/> </temp_fact_header> </VFPData>";
-          //  XMLDetailInvoce = "<?xml version = \"1.0\" encoding=\"Windows - 1252\" standalone=\"yes\"?> <VFPData> <temp_fact_detail> <bienoservicio>S</bienoservicio> <numerolinea>1</numerolinea> <cantidad>1.00000</cantidad> <unidadmedida>1</unidadmedida> <descripcion>Pago de Servicio de Seguridad</descripcion> <co_art>9901007</co_art> <fact_num>20002466</fact_num> <preciounitario>100.0000000000000000</preciounitario> <precio>100.000000</precio> <total>100.0000000000000000</total> <descuento>10.0000000000000000</descuento> <impuestonombrecorto>IVA</impuestonombrecorto> <codigounidadgravable>1</codigounidadgravable> <montoimpuesto>10</montoimpuesto> <montogravable>10</montogravable> </temp_fact_detail> </VFPData>";
+
             String xmlDoc = xml.getXML(XMLCompany, XMLInvoice, XMLDetailInvoce,path,fac_num);
-            return ws.registerDte( token, xmlDoc);
+            XmlDocument validate = wsvalidate.validar(token, xmlDoc);
+            XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
+              
+            string error = resNodo[0].InnerXml;
+            
+            
+            if ("1".Equals(error.ToString()))
+            {
+                
+                String errorDescp = getError(validate);
+                strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
+                return strreponsexml;
+            }
+
+            XmlDocument register = ws.registerDte(token, xmlDoc);
+            XmlNodeList resReg = register.GetElementsByTagName("tipo_respuesta");
+            string errorRes = resNodo[0].InnerXml;
+
+            
+            if ("1".Equals(errorRes.ToString()))
+            {
+                
+                String errorDescp = getError(register);
+                strreponsexml = GetResponseXML(errorDescp, errorRes, this.strreponsexml);
+                return strreponsexml;
+            }
+
+            XmlNodeList uuidNodo = register.GetElementsByTagName("uuid");
+
+            string uuid = uuidNodo[0].InnerXml;
+
+            strreponsexml = GetResponseXML("Transacción Exitosa", uuid, errorRes, this.strreponsexml);
+
+            return strreponsexml;
+        }
+        private DataSet GetResponseXML(String valor,  string errores, DataSet strreponsexml)
+        {
+            try
+            {
+                //Vaciando Respuesta
+                strreponsexml = new DataSet();
+                //Evaluando token
+                if (valor == null)
+                { valor = " "; }
+
+                //Evaluando Error Text
+                //Creando XML
+                //Documento XML
+                XmlDocument xmlDoc = new XmlDocument();
+                //Nombre de XML
+                XmlNode rootNode = xmlDoc.CreateElement("NewDataset");
+                xmlDoc.AppendChild(rootNode);
+                //TABLE
+                XmlNode xtable = xmlDoc.CreateElement("Table");
+                rootNode.AppendChild(xtable);
+                //token
+                XmlNode xvalor = xmlDoc.CreateElement("respuesta");
+                if (valor != null && valor.Length > 0)
+                {
+                    xvalor.InnerText = valor.ToString();
+                }
+                xtable.AppendChild(xvalor);
+
+                //Error
+                       XmlNode xerror = xmlDoc.CreateElement("blnerror");
+                xerror.InnerText = errores.ToString();
+                xtable.AppendChild(xerror);
+                StringWriter stringWriter = new StringWriter();
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                xmlDoc.WriteTo(xmlTextWriter);
+                StringReader reader = new StringReader(stringWriter.ToString());
+                strreponsexml.ReadXml(reader);
+
+            }
+            catch
+            {
+
+            }
+            return strreponsexml;
+        }
+        private DataSet GetResponseXML(String valor,String uuid, string errores, DataSet strreponsexml)
+        {
+            try
+            {
+                //Vaciando Respuesta
+                strreponsexml = new DataSet();
+                //Evaluando token
+                if (valor == null)
+                { valor = " "; }
+                if (uuid == null)
+                { uuid = " "; }
+                //Evaluando Error Text
+                //Creando XML
+                //Documento XML
+                XmlDocument xmlDoc = new XmlDocument();
+                //Nombre de XML
+                XmlNode rootNode = xmlDoc.CreateElement("NewDataset");
+                xmlDoc.AppendChild(rootNode);
+                //TABLE
+                XmlNode xtable = xmlDoc.CreateElement("Table");
+                rootNode.AppendChild(xtable);
+                //token
+                XmlNode xvalor = xmlDoc.CreateElement("respuesta");
+                if (valor != null && valor.Length > 0)
+                {
+                    xvalor.InnerText = valor.ToString();
+                }
+                xtable.AppendChild(xvalor);
+
+                XmlNode xuuid = xmlDoc.CreateElement("uuid");
+                if (uuid != null && uuid.Length > 0)
+                {
+                    xuuid.InnerText = uuid.ToString();
+                }
+                xtable.AppendChild(xuuid);
+
+                //Error
+                XmlNode xerror = xmlDoc.CreateElement("blnerror");
+                xerror.InnerText = errores.ToString();
+                xtable.AppendChild(xerror);
+                StringWriter stringWriter = new StringWriter();
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                xmlDoc.WriteTo(xmlTextWriter);
+                StringReader reader = new StringReader(stringWriter.ToString());
+                strreponsexml.ReadXml(reader);
+
+            }
+            catch
+            {
+
+            }
+            return strreponsexml;
+        }
+
+        private String getError(XmlDocument doc)
+        {
+
+        
+            XmlNode unEmpleado;
+            String errores = "";
+            XmlNodeList lst = doc.GetElementsByTagName("error");
+
+
+            int count = lst.Count;
+            for (int i = 0; i < count; i++)
+            {
+
+                unEmpleado = lst.Item(i);
+
+                string id = unEmpleado.SelectSingleNode("cod_error").InnerText;
+                string error = unEmpleado.SelectSingleNode("desc_error").InnerText;
+
+                errores += " Código: " + id + ", Error: " + error + "\n";
+
+            }
+            return errores;
         }
     }
 }

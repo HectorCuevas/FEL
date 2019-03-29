@@ -77,6 +77,8 @@
     <Compile Include="Instancia.cs" />
     <Compile Include="LlenarEstructuras.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="ValidateDocument.cs" />
     <Compile Include="RegisterDocument.cs" />
     <Compile Include="RegisterDocumentWS.asmx.cs">
       <DependentUpon>RegisterDocumentWS.asmx</DependentUpon>

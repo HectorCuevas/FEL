@@ -16,16 +16,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:07:04</publishTime>
     </File>
     <File Include="bin/FELFactura.dll">
-      <publishTime>03/21/2019 22:34:35</publishTime>
+      <publishTime>03/28/2019 17:32:15</publishTime>
     </File>
     <File Include="bin/FELFactura.pdb">
-      <publishTime>03/21/2019 22:34:35</publishTime>
+      <publishTime>03/28/2019 17:32:15</publishTime>
     </File>
     <File Include="bin/Firma.dll">
-      <publishTime>03/20/2019 13:27:55</publishTime>
+      <publishTime>03/28/2019 13:59:37</publishTime>
     </File>
     <File Include="bin/Firma.pdb">
-      <publishTime>03/20/2019 13:27:55</publishTime>
+      <publishTime>03/28/2019 13:59:37</publishTime>
     </File>
     <File Include="bin/FirmaXadesNet.dll">
       <publishTime>02/19/2019 15:06:08</publishTime>
@@ -37,10 +37,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:06:06</publishTime>
     </File>
     <File Include="bin/Modelos.dll">
-      <publishTime>03/20/2019 13:27:55</publishTime>
+      <publishTime>03/27/2019 17:26:02</publishTime>
     </File>
     <File Include="bin/Modelos.pdb">
-      <publishTime>03/20/2019 13:27:55</publishTime>
+      <publishTime>03/27/2019 17:26:02</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/24/2018 13:38:22</publishTime>

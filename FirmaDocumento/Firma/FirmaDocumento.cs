@@ -19,7 +19,9 @@ namespace Firma
 
             SignatureParameters parametros = ParametrosdeFirma("DatosEmision");
             var nombredocumento = nombreDocumento;
-
+            System.DateTime fecha = System.DateTime.Now;
+            //se demora la firma 1 minuto
+            parametros.SigningDate = fecha.AddSeconds(-120);
             using (parametros.Signer = new Signer(cert))
             {
                 var documento = FirmaXades(parametros, rutaDocumento+ nombreDocumento);

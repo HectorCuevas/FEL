@@ -9,7 +9,7 @@ namespace Modelos
     public class TotalImpuestos
     {
         public string NombreCorto = null;
-        public Double TotalMontoImpuesto = 0d;
+        public string TotalMontoImpuesto = null;
 
     }
 }

@@ -29,6 +29,12 @@ namespace FELFactura
                     datosGenerales.NumeroAcceso = NumeroAcceso.ToString();
 
                 }
+                var FechaHoraEmision = reader["FechaHoraEmision"];
+                if (FechaHoraEmision != null)
+                {
+                    datosGenerales.FechaHoraEmision =FechaHoraEmision.ToString();
+
+                }
 
 
                 datosGenerales.Tipo = Constants.TIPO_FACTURA;
@@ -40,6 +46,47 @@ namespace FELFactura
 
         }
 
+        public static void Totales(DataSet dstcompanyxml, Totales totales,List<Item>lst)
+        {
+
+            Double impuetos = 0d;
+            foreach (DataRow reader in dstcompanyxml.Tables[0].Rows)
+            {
+                var GranTotal = reader["GranTotal"];
+                if (GranTotal != null)
+                {
+                    totales.GranTotal = String.Format("0.00000",GranTotal.ToString());
+
+                }
+
+                if (lst!=null)
+                {
+                    foreach(Item item in lst)
+                    {
+                        if (item.impuestos!=null)
+                        {
+                            foreach (Impuesto im in item.impuestos)
+                            {
+                                if (im.MontoImpuesto!=null)
+                                {
+                                    impuetos = impuetos + Double.Parse(im.MontoImpuesto);
+
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            
+            totales.TotalMontoImpuesto = String.Format("0.00000",impuetos.ToString());
+            totales.NombreCorto = "IVA";
+
+        }
 
         public static void DatosEmisor(DataSet dstinvoicexml, Emisor emisor)
         {
@@ -126,13 +173,7 @@ namespace FELFactura
             foreach (DataRow reader in dstinvoicexml.Tables[0].Rows)
             {
 
-                var FechaHoraEmision = reader["fec_emis"];
-                if (FechaHoraEmision != null)
-                {
-                    datosGenerales.FechaHoraEmision = FechaHoraEmision.ToString();
-
-                }
-
+               
                 var CorreoReceptor = reader["correoreceptor"];
                 if (CorreoReceptor != null)
                 {
@@ -207,16 +248,19 @@ namespace FELFactura
                     impuesto.CodigoUnidadGravable = codigounidadgravable.ToString();
 
                 }
+           
                 var montoimpuesto = reader["montoimpuesto"];
                 if (montoimpuesto != null)
                 {
-                    impuesto.MontoImpuesto = montoimpuesto.ToString();
 
+
+                    impuesto.MontoImpuesto = String.Format("0.00000",montoimpuesto.ToString());
+                    
                 }
                 var montogravable = reader["montogravable"];
                 if (montogravable != null)
                 {
-                    impuesto.MontoGravable = montogravable.ToString();
+                    impuesto.MontoGravable = String.Format("0.00000",montogravable.ToString());
 
                 }
                 //item en general
@@ -244,31 +288,36 @@ namespace FELFactura
                     item.Cantidad = cantidad.ToString();
 
                 }
+                var unidadMedida = reader["unidadMedida"];
+                if (unidadMedida != null)
+                {
+                    item.UnidadMedida = unidadMedida.ToString();
 
+                }
                 var precio = reader["precio"];
                 if (precio != null)
                 {
-                    item.Precio = precio.ToString();
+                    item.Precio = String.Format("0.00000",precio.ToString());
 
                 }
                 var preciounitario = reader["preciounitario"];
                 if (preciounitario != null)
                 {
-                    item.PrecioUnitario = preciounitario.ToString();
+                    item.PrecioUnitario = String.Format("0.00000",preciounitario.ToString());
 
                 }
 
                 var total = reader["total"];
                 if (total != null)
                 {
-                    item.Total = total.ToString();
+                    item.Total = String.Format("0.00000",total.ToString());
 
                 }
 
                 var descuento = reader["descuento"];
                 if (descuento != null)
                 {
-                    item.Descuento = descuento.ToString();
+                    item.Descuento = String.Format("0.00000",descuento.ToString());
 
                 }
                 items.Add(item);

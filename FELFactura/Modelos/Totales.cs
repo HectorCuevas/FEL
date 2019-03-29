@@ -8,7 +8,9 @@ namespace Modelos
 {
   public   class Totales
     {
-        public  Double GranTotal = 0d;
+        public  String GranTotal = null;
+        public string NombreCorto = null;
+        public string TotalMontoImpuesto = null;
         public  List<TotalImpuestos> TotalImpuestos;
     }
 }
