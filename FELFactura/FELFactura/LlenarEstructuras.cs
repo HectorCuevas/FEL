@@ -55,7 +55,7 @@ namespace FELFactura
                 var GranTotal = reader["GranTotal"];
                 if (GranTotal != null)
                 {
-                    totales.GranTotal = String.Format("0.00000",GranTotal.ToString());
+                    totales.GranTotal =  GranTotal.ToString();
 
                 }
 
@@ -83,7 +83,7 @@ namespace FELFactura
             }
 
             
-            totales.TotalMontoImpuesto = String.Format("0.00000",impuetos.ToString());
+            totales.TotalMontoImpuesto = impuetos.ToString();
             totales.NombreCorto = "IVA";
 
         }
@@ -254,13 +254,13 @@ namespace FELFactura
                 {
 
 
-                    impuesto.MontoImpuesto = String.Format("0.00000",montoimpuesto.ToString());
+                    impuesto.MontoImpuesto = montoimpuesto.ToString();
                     
                 }
                 var montogravable = reader["montogravable"];
                 if (montogravable != null)
                 {
-                    impuesto.MontoGravable = String.Format("0.00000",montogravable.ToString());
+                    impuesto.MontoGravable =  montogravable.ToString();
 
                 }
                 //item en general
@@ -297,27 +297,31 @@ namespace FELFactura
                 var precio = reader["precio"];
                 if (precio != null)
                 {
-                    item.Precio = String.Format("0.00000",precio.ToString());
+                    item.Precio =  precio.ToString();
 
                 }
                 var preciounitario = reader["preciounitario"];
                 if (preciounitario != null)
                 {
-                    item.PrecioUnitario = String.Format("0.00000",preciounitario.ToString());
+                    item.PrecioUnitario =  preciounitario.ToString();
 
                 }
 
                 var total = reader["total"];
                 if (total != null)
                 {
-                    item.Total = String.Format("0.00000",total.ToString());
+                    item.Total =  total.ToString();
 
                 }
 
                 var descuento = reader["descuento"];
-                if (descuento != null)
+                if (descuento != null )
                 {
-                    item.Descuento = String.Format("0.00000",descuento.ToString());
+                    if (Double.Parse(descuento.ToString())>0d)
+                    {
+                        item.Descuento = descuento.ToString();
+
+                    }
 
                 }
                 items.Add(item);

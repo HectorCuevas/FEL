@@ -22,67 +22,118 @@ namespace FELFactura
         DataSet strreponsexml = new DataSet();
 
         [WebMethod]
-        public DataSet registerDocument(String token,
-            String XMLCompany, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num)
+        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num)
         {
+            try { 
+                    //VALIDAR QUE NO ESTEN VACIOS LOS  DATOS ENVIADOS
+                    if(!validateEmply(token, XMLInvoice, XMLDetailInvoce))
+                    {
+                        return strreponsexml;
+                    }
 
-            String xmlDoc = xml.getXML(XMLCompany, XMLInvoice, XMLDetailInvoce,path,fac_num);
-            XmlDocument validate = wsvalidate.validar(token, xmlDoc);
-            XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
-              
-            string error = resNodo[0].InnerXml;
-            
-            
-            if ("1".Equals(error.ToString()))
-            {
+                    //TODO VALIDAR QUE  SI EL DOCUMENTO YA EXISTE SOLO DEVUELVA EL UUID
+        
+                    //SE ENVIA DATOS PARA QUE ARME LA ESTRUCTURA DE XML
+                    String xmlDoc = xml.getXML( XMLInvoice, XMLDetailInvoce,path,fac_num);
+
+                   //SE ENVIA EL XML PARA EL WS DE VALIDACION
+                    XmlDocument validate = wsvalidate.validar(token, xmlDoc);
+
+                    // SE VERIFICA EL RESULTADO DE LA RESPUESTA
+                    XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
+                    string error = resNodo[0].InnerXml;
+                     
+                    if ("1".Equals(error.ToString()))
+                    {
                 
-                String errorDescp = getError(validate);
-                strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
-                return strreponsexml;
-            }
+                        String errorDescp = getError(validate);
+                        strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
+                        return strreponsexml;
+                    }
 
-            XmlDocument register = ws.registerDte(token, xmlDoc);
-            XmlNodeList resReg = register.GetElementsByTagName("tipo_respuesta");
-            string errorRes = resNodo[0].InnerXml;
+                    //SE ENVIA XML PARA REGISTRAR DOCUMENTO
+                    XmlDocument register = ws.registerDte(token, xmlDoc);
 
-            
-            if ("1".Equals(errorRes.ToString()))
-            {
+                    //SE VALIDA RESPUESTA DEL SERVICIO
+                    XmlNodeList resReg = register.GetElementsByTagName("tipo_respuesta");
+                    string errorRes = resNodo[0].InnerXml;
+
+                    // SI EL SERVICIO RETORNA ERROR SE ARMA LA ESTRUCTURA PARA RESPONDER LOS ERRORES A PROFIT
+                    if ("1".Equals(errorRes.ToString()))
+                    {
                 
-                String errorDescp = getError(register);
-                strreponsexml = GetResponseXML(errorDescp, errorRes, this.strreponsexml);
-                return strreponsexml;
+                        String errorDescp = getError(register);
+                        strreponsexml = GetResponseXML(errorDescp, errorRes, this.strreponsexml);
+                        return strreponsexml;
+                    }
+
+                    //SI EL SERVICIO FUE RETORNA EXITOSO RETORNA UUID GENERADO POR EL FIRMADO ELECTRONICO
+                    XmlNodeList uuidNodo = register.GetElementsByTagName("uuid");
+                    string uuid = uuidNodo[0].InnerXml;
+                    strreponsexml = GetResponseXML("Transacción Exitosa", uuid, errorRes, this.strreponsexml);
+
+                      return strreponsexml;
             }
+            catch (Exception e)
+            {
+                    this.strreponsexml = GetResponseXML("Ha ocurrido una excepción no controlada en el sistema \n "+e.Message, "1", this.strreponsexml);
+                    return strreponsexml;
 
-            XmlNodeList uuidNodo = register.GetElementsByTagName("uuid");
-
-            string uuid = uuidNodo[0].InnerXml;
-
-            strreponsexml = GetResponseXML("Transacción Exitosa", uuid, errorRes, this.strreponsexml);
-
-            return strreponsexml;
+            }
         }
+
+        private bool validateEmply(String token, String XMLInvoice, String XMLDetailInvoce)
+        {
+            try {
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    this.strreponsexml = GetResponseXML("Error, token no puede ser vacío", "1", this.strreponsexml);
+                    return false;
+                }
+
+                if (string.IsNullOrEmpty(XMLInvoice))
+                {
+                    this.strreponsexml = GetResponseXML("Error, Datos de Factura no han sido enviados ", "1", this.strreponsexml);
+                    return false;
+                }
+
+
+                if (string.IsNullOrEmpty(XMLDetailInvoce))
+                {
+                    this.strreponsexml = GetResponseXML("Error, Detalles de Factura no han sido enviados ", "1", this.strreponsexml);
+                    return false;
+                }
+               
+
+            } catch (Exception e )
+            {
+                this.strreponsexml = GetResponseXML("Ha ocurrido una excepción no controlada en el sistema \n " + e.Message, "1", this.strreponsexml);
+                return false;
+
+            }
+            return true;
+        }
+         
+        
+
         private DataSet GetResponseXML(String valor,  string errores, DataSet strreponsexml)
         {
             try
             {
-                //Vaciando Respuesta
                 strreponsexml = new DataSet();
-                //Evaluando token
+
                 if (valor == null)
                 { valor = " "; }
 
-                //Evaluando Error Text
-                //Creando XML
-                //Documento XML
                 XmlDocument xmlDoc = new XmlDocument();
-                //Nombre de XML
+
                 XmlNode rootNode = xmlDoc.CreateElement("NewDataset");
                 xmlDoc.AppendChild(rootNode);
-                //TABLE
+
                 XmlNode xtable = xmlDoc.CreateElement("Table");
                 rootNode.AppendChild(xtable);
-                //token
+
                 XmlNode xvalor = xmlDoc.CreateElement("respuesta");
                 if (valor != null && valor.Length > 0)
                 {
@@ -90,8 +141,7 @@ namespace FELFactura
                 }
                 xtable.AppendChild(xvalor);
 
-                //Error
-                       XmlNode xerror = xmlDoc.CreateElement("blnerror");
+                XmlNode xerror = xmlDoc.CreateElement("blnerror");
                 xerror.InnerText = errores.ToString();
                 xtable.AppendChild(xerror);
                 StringWriter stringWriter = new StringWriter();
@@ -107,28 +157,25 @@ namespace FELFactura
             }
             return strreponsexml;
         }
+
         private DataSet GetResponseXML(String valor,String uuid, string errores, DataSet strreponsexml)
         {
             try
             {
-                //Vaciando Respuesta
+   
                 strreponsexml = new DataSet();
-                //Evaluando token
                 if (valor == null)
                 { valor = " "; }
                 if (uuid == null)
                 { uuid = " "; }
-                //Evaluando Error Text
-                //Creando XML
-                //Documento XML
+
                 XmlDocument xmlDoc = new XmlDocument();
-                //Nombre de XML
                 XmlNode rootNode = xmlDoc.CreateElement("NewDataset");
                 xmlDoc.AppendChild(rootNode);
-                //TABLE
+
                 XmlNode xtable = xmlDoc.CreateElement("Table");
                 rootNode.AppendChild(xtable);
-                //token
+
                 XmlNode xvalor = xmlDoc.CreateElement("respuesta");
                 if (valor != null && valor.Length > 0)
                 {
@@ -143,7 +190,6 @@ namespace FELFactura
                 }
                 xtable.AppendChild(xuuid);
 
-                //Error
                 XmlNode xerror = xmlDoc.CreateElement("blnerror");
                 xerror.InnerText = errores.ToString();
                 xtable.AppendChild(xerror);

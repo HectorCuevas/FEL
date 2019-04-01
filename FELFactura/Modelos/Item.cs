@@ -15,7 +15,7 @@ namespace Modelos
         public String Descripcion = null;
         public string PrecioUnitario = null;
         public string Precio = null;
-        public string Descuento = null;
+        public string Descuento = "0";
         public string Total = null;
         public List<Impuesto> impuestos;
 

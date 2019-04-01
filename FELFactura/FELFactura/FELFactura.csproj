@@ -88,6 +88,7 @@
       <DependentUpon>SolicitarToken.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="XMLAnular.cs" />
     <Compile Include="XMLFactura.cs" />
   </ItemGroup>
   <ItemGroup>

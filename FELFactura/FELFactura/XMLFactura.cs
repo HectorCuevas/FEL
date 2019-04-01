@@ -13,7 +13,7 @@ namespace FELFactura
 {
     public class XMLFactura
     {
-        private DataSet dstcompanyxml = new DataSet();
+        
         private DataSet dstinvoicexml = new DataSet();
         private DataSet dstdetailinvoicexml = new DataSet();
         private DatosGenerales datosGenerales = new DatosGenerales();
@@ -23,12 +23,13 @@ namespace FELFactura
         private Totales totales = new Totales();
         string v_rootxml ="";
         string fac_num = "";
-        public String getXML(string XMLCompany, string XMLInvoice, string XMLDetailInvoce, string path, string fac_num)
+        public String getXML(string XMLInvoice, string XMLDetailInvoce, string path, string fac_num)
         {
+            
             v_rootxml = path;
             this.fac_num = fac_num;
             //convertir a dataset los string para mayor manupulacion
-            XmlToDataSet( XMLCompany, XMLInvoice,  XMLDetailInvoce);
+            XmlToDataSet( XMLInvoice,  XMLDetailInvoce);
             //llenar estructuras
             ReaderDataset();
             
@@ -47,15 +48,11 @@ namespace FELFactura
 
 
         //Convertir XML a DataSet
-        private bool XmlToDataSet(string XMLCompany, string XMLInvoice, string XMLDetailInvoce)
+        private bool XmlToDataSet( string XMLInvoice, string XMLDetailInvoce)
         {
             try
             {
-                //Conviertiendo XML a DataSet Empresa y factura
-                System.IO.StringReader rdpymesxml = new System.IO.StringReader(XMLCompany);
-                dstcompanyxml.ReadXml(rdpymesxml);
-                //Conviertiendo XML a DataSet Empresa
-             
+                      
                 //Convieriendo XMl a DataSet Factura
                 System.IO.StringReader rdinvoice = new System.IO.StringReader(XMLInvoice);
                 dstinvoicexml.ReadXml(rdinvoice);
@@ -67,8 +64,6 @@ namespace FELFactura
             }
             catch (Exception ex)
             {
-                //DecodingResponse("Se produjo un error en la conversion de XML a DataSet. Verifique que la estrucutra del " +
-                //              "XMl este bien estructurado para su conversion.\n'" + ex.Message.ToString(), "", 1);
                 return false;
             }
         }
@@ -114,8 +109,8 @@ namespace FELFactura
             DTE.Add(DatosEmision);
 
             //datos generales
-            XElement DatosGenerales = new XElement(dte + "DatosGenerales", new XAttribute("CodigoMoneda", this.datosGenerales.CodigoMoneda), 
-                new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision), new XAttribute("Tipo", this.datosGenerales.Tipo));
+            XElement DatosGenerales = new XElement(dte + "DatosGenerales", new XAttribute("CodigoMoneda", this.datosGenerales.CodigoMoneda),
+                 new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision),new XAttribute("NumeroAcceso", this.datosGenerales.NumeroAcceso), new XAttribute("Tipo", this.datosGenerales.Tipo));
             DatosEmision.Add(DatosGenerales);
 
             //datos emisor

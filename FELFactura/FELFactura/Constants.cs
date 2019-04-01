@@ -13,7 +13,6 @@ namespace FELFactura
         public static String USUARIO = "3225607";
         public static String CLAVE = "hwI5RFEFm9wOnz727R6jLGu";
         public static String URL_CERTIFICADO = "C:\\certificado\\3225607-61589fea042b4cfc.pfx";
-        //public static String URL_CERTIFICADO = "C:\\Users\\leyla\\Dropbox\\universidad\\prosisco\\proyectos\\FELFactura\\3225607-61589fea042b4cfc.pfx";
         public static String URL_CERTIFICADO_CONTRASENIA = "MayaZac/49";
         public static String UBICACION_XML_FACTURA = "C:\\Users\\leyla\\Dropbox\\universidad\\prosisco\\";
         public static String FRASE_2 = "1";
