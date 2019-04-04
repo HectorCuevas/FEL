@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anular.cs" />
     <Compile Include="Emisor.cs" />
     <Compile Include="DatosGenerales.cs" />
     <Compile Include="Impuesto.cs" />

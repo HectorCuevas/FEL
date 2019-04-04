@@ -140,15 +140,28 @@ namespace Firma
         }
 
         //Invocación de la firma de documento y retorno de este
-        public static XmlDocument FirmarDocumentoAnulacion(string rutaCertificado, string contraseñaCertificado, string rutaDocumento)
+        public static XmlDocument FirmarDocumentoAnulacion(string rutaCertificado, string contraseñaCertificado, string rutaDocumento, string nombreDocumento, string ubicacionDestino)
         {
             X509Certificate2 cert = new X509Certificate2(rutaCertificado, contraseñaCertificado, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
 
             SignatureParameters parametros = ParametrosdeFirma("DatosAnulacion");
+            var nombredocumento = nombreDocumento;
+            System.DateTime fecha = System.DateTime.Now;
+            //se demora la firma 1 minuto
+            parametros.SigningDate = fecha.AddSeconds(-120);
+            //  using (parametros.Signer = new Signer(cert))
+            // {
+            //   return FirmaXades(parametros, rutaDocumento + nombreDocumento).Document;
+            //}
+
             using (parametros.Signer = new Signer(cert))
             {
-                return FirmaXades(parametros, rutaDocumento).Document;
+                var documento = FirmaXades(parametros, rutaDocumento + nombreDocumento);
+                System.IO.File.Delete(rutaDocumento + nombredocumento);
+                AlmacenamientoDocumento(documento, ubicacionDestino, nombredocumento);
+                return documento.Document;
             }
         }
+
     }
 }

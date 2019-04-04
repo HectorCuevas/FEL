@@ -52,28 +52,28 @@ namespace FELFactura
             Double impuetos = 0d;
             foreach (DataRow reader in dstcompanyxml.Tables[0].Rows)
             {
-                var GranTotal = reader["GranTotal"];
+                var GranTotal = reader["grantotal"];
                 if (GranTotal != null)
                 {
                     totales.GranTotal =  GranTotal.ToString();
 
                 }
 
-                if (lst!=null)
+            }
+
+            if (lst != null)
+            {
+                foreach (Item item in lst)
                 {
-                    foreach(Item item in lst)
+                    if (item.impuestos != null)
                     {
-                        if (item.impuestos!=null)
+                        foreach (Impuesto im in item.impuestos)
                         {
-                            foreach (Impuesto im in item.impuestos)
+                            if (im.MontoImpuesto != null)
                             {
-                                if (im.MontoImpuesto!=null)
-                                {
-                                    impuetos = impuetos + Double.Parse(im.MontoImpuesto);
+                                impuetos = impuetos + Double.Parse(im.MontoImpuesto);
 
-                                }
                             }
-
                         }
 
                     }
@@ -82,7 +82,7 @@ namespace FELFactura
 
             }
 
-            
+
             totales.TotalMontoImpuesto = impuetos.ToString();
             totales.NombreCorto = "IVA";
 
@@ -328,6 +328,34 @@ namespace FELFactura
                 item.impuestos.Add(impuesto);
             }
         }
+
+
+
+        public static void DatosAnular(DataSet dstcancelxml, Anular anular)
+        {
+
+            foreach (DataRow reader in dstcancelxml.Tables[0].Rows)
+            {
+                var NumeroDocumentoAAnular = reader["numerodocumentoanular"];
+                var NITEmisor = reader["nitemisor"];
+                var IDReceptor = reader["idreceptor"];
+                var FechaEmisionDocumentoAnular = reader["fechaemisiondocumentoanular"];
+                var FechaHoraAnulacion = reader["fechahoraanulacion"];
+                var MotivoAnulacion = reader["motivoanulacion"];
+                var uuid = reader["uuid"];
+
+                anular.NumeroDocumentoAAnular = NumeroDocumentoAAnular.ToString();
+                anular.NITEmisor = NITEmisor.ToString();
+                anular.IDReceptor = IDReceptor.ToString();
+                anular.FechaEmisionDocumentoAnular = FechaEmisionDocumentoAnular.ToString();
+                anular.FechaHoraAnulacion = FechaHoraAnulacion.ToString();
+                anular.MotivoAnulacion = MotivoAnulacion.ToString();
+                anular.uuid = uuid.ToString();
+
+            }
+
+        }
+
 
     }
 }

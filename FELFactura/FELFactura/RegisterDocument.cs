@@ -53,8 +53,6 @@ namespace FELFactura
                             "</xml_dte>\n"+
                             "</RegistraDocumentoXMLRequest>";
 
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\" + "request.txt";
-            System.IO.File.WriteAllText(path, request);
             return request;
         }
     }
