@@ -13,7 +13,6 @@ namespace FELFactura
         public static String URL_ANULAR_DOCUMENTO = "https://dev.api.ifacere-fel.com/fel-dte-services/api/anularDocumentoXML";
         public static String URL_CERTIFICADO = "C:\\certificado\\3225607-61589fea042b4cfc.pfx";
         public static String URL_CERTIFICADO_CONTRASENIA = "MayaZac/49";
-        public static String UBICACION_XML_FACTURA = "C:\\Users\\leyla\\Dropbox\\universidad\\prosisco\\";
         public static String FRASE_2 = "1";
         public static String FRASE_1 = "1";
         public static String FRASE_CODIGO_2 = "2";

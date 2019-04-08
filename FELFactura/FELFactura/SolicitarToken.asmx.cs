@@ -14,7 +14,7 @@ namespace FELFactura
     [System.ComponentModel.ToolboxItem(false)]
     public class SolicitarToken : System.Web.Services.WebService
     {
-        static GetRequestToken ws = Instancia.getInstancia();
+        GetRequestToken ws = new GetRequestToken();
         DataSet strreponsexml = new DataSet();
         [WebMethod]
         public DataSet getToken(String user, String apikey)

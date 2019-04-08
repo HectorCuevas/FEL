@@ -12,7 +12,7 @@ namespace FELFactura
     public class GetRequestToken
     {
 
-        DataSet strreponsexml =  new DataSet();
+       private  DataSet strreponsexml =  new DataSet();
 
         public XmlDocument getToken(String user, String apikey)
         {

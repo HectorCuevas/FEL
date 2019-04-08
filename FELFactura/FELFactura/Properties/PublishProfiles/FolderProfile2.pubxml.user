@@ -19,10 +19,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:07:04</publishTime>
     </File>
     <File Include="bin/FELFactura.dll">
-      <publishTime>04/03/2019 20:50:26</publishTime>
+      <publishTime>04/05/2019 09:56:37</publishTime>
     </File>
     <File Include="bin/FELFactura.pdb">
-      <publishTime>04/03/2019 20:50:26</publishTime>
+      <publishTime>04/05/2019 09:56:37</publishTime>
     </File>
     <File Include="bin/Firma.dll">
       <publishTime>04/03/2019 20:50:26</publishTime>
@@ -40,10 +40,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:06:06</publishTime>
     </File>
     <File Include="bin/Modelos.dll">
-      <publishTime>04/03/2019 20:33:03</publishTime>
+      <publishTime>04/05/2019 08:45:17</publishTime>
     </File>
     <File Include="bin/Modelos.pdb">
-      <publishTime>04/03/2019 20:33:03</publishTime>
+      <publishTime>04/05/2019 08:45:17</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/24/2018 13:38:22</publishTime>

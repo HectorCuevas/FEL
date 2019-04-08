@@ -119,7 +119,7 @@ namespace FELFactura
 
             XDocument myXML = new XDocument(declaracion, parameters);
             String res = myXML.ToString();
-
+            res = Utils.replace(res);
 
             try
             {
@@ -141,7 +141,7 @@ namespace FELFactura
                 System.IO.File.WriteAllText(path, ex.Message);
             }
             return res;
-        }
+          }
 
 
 

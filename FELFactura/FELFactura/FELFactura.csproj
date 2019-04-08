@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="AnnularDocumentWS.asmx" />
     <Content Include="RegisterDocumentWS.asmx" />
+    <Content Include="RegisterSpecialInvoiceWS.asmx" />
     <Content Include="SolicitarToken.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -78,11 +79,15 @@
       <DependentUpon>AnnularDocumentWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utils.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GetRequestToken.cs" />
-    <Compile Include="Instancia.cs" />
     <Compile Include="LlenarEstructuras.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterSpecialInvoiceWS.asmx.cs">
+      <DependentUpon>RegisterSpecialInvoiceWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Response.cs" />
     <Compile Include="ValidateDocument.cs" />
     <Compile Include="RegisterDocument.cs" />

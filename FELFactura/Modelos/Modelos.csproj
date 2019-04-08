@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Anular.cs" />
+    <Compile Include="Complementos.cs" />
     <Compile Include="Emisor.cs" />
     <Compile Include="DatosGenerales.cs" />
     <Compile Include="Impuesto.cs" />

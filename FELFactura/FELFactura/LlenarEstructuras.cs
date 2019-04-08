@@ -11,7 +11,7 @@ namespace FELFactura
     public class LlenarEstructuras
     {
 
-        public static void DatosGenerales(DataSet dstcompanyxml, DatosGenerales datosGenerales)
+        public static void DatosGenerales(DataSet dstcompanyxml, DatosGenerales datosGenerales, string tipo)
         {
 
             foreach (DataRow reader in dstcompanyxml.Tables[0].Rows)
@@ -37,7 +37,7 @@ namespace FELFactura
                 }
 
 
-                datosGenerales.Tipo = Constants.TIPO_FACTURA;
+                datosGenerales.Tipo = tipo;
 
 
 
@@ -327,6 +327,49 @@ namespace FELFactura
                 items.Add(item);
                 item.impuestos.Add(impuesto);
             }
+        }
+
+
+        public static void DatosComplementos(DataSet dstdetailinvoicexml, Complementos c, List<Item> items)
+        {
+
+            Double retencionIVA = 0d;
+            Double retencionISR = 0d;
+            Double totalSinRetencion = 0d;
+            foreach (DataRow reader in dstdetailinvoicexml.Tables[0].Rows)
+            {
+                var retencion = reader["retencion"];
+                if (retencion != null)
+                {
+                    retencionISR = retencionISR + Double.Parse(retencion.ToString());
+
+                }
+            }
+            if (items !=null)
+            {
+                foreach (Item  i in items)
+                {
+                    totalSinRetencion= totalSinRetencion + Double.Parse(i.Precio);
+                    foreach (Impuesto im in i.impuestos) {
+
+                        if (im.MontoImpuesto != null)
+                        {
+                            retencionIVA = retencionIVA + Double.Parse(im.MontoImpuesto);
+
+                        }
+
+                    }
+
+                }
+
+
+            }
+
+
+            c.RetencionIVA = retencionIVA.ToString();
+            c.RetencionISR = retencionISR.ToString();
+            c.TotalMenosRetenciones = totalSinRetencion.ToString();
+
         }
 
 

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Services;
+
 using System.Data;
 using System.Xml;
 
@@ -7,36 +11,54 @@ using System.IO;
 namespace FELFactura
 {
     /// <summary>
-    /// Summary description for AnnularDocumentWS
+    /// Summary description for RegisterSpecialInvoiceWS
     /// </summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     // [System.Web.Script.Services.ScriptService]
-    public class AnnularDocumentWS : System.Web.Services.WebService
+    public class RegisterSpecialInvoiceWS : System.Web.Services.WebService
     {
-        AnnularDocument ws = new AnnularDocument();
-        XMLAnular xml = new XMLAnular();
+        RegisterDocument ws = new RegisterDocument();
+        ValidateDocument wsvalidate = new ValidateDocument();
+        XMLFacturaEspecial xml = new XMLFacturaEspecial();
         DataSet strreponsexml = new DataSet();
 
         [WebMethod]
-        public DataSet annularDocument(String token, String XMLInvoice, String path, String fac_num)
+        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num)
         {
             try
             {
+
                 //VALIDAR QUE NO ESTEN VACIOS LOS  DATOS ENVIADOS
-                if (!validateEmply(token, XMLInvoice))
+                if (!validateEmply(token, XMLInvoice, XMLDetailInvoce))
                 {
                     return strreponsexml;
                 }
 
-                
+                //TODO VALIDAR QUE  SI EL DOCUMENTO YA EXISTE SOLO DEVUELVA EL UUID
+
                 //SE ENVIA DATOS PARA QUE ARME LA ESTRUCTURA DE XML
-                String xmlDoc = xml.getXML(XMLInvoice, path, fac_num);
-            
+                String xmlDoc = xml.getXML(XMLInvoice, XMLDetailInvoce, path, fac_num);
+
+                //SE ENVIA EL XML PARA EL WS DE VALIDACION
+                XmlDocument validate = wsvalidate.validar(token, xmlDoc);
+
+                // SE VERIFICA EL RESULTADO DE LA RESPUESTA
+                XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
+                string error = resNodo[0].InnerXml;
+
+                if ("1".Equals(error.ToString()))
+                {
+
+                    String errorDescp = getError(validate);
+                    strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
+                    return strreponsexml;
+                }
+
                 //SE ENVIA XML PARA REGISTRAR DOCUMENTO
-                XmlDocument register = ws.annularDte(token, xmlDoc);
+                XmlDocument register = ws.registerDte(token, xmlDoc);
 
                 //SE VALIDA RESPUESTA DEL SERVICIO
                 XmlNodeList resReg = register.GetElementsByTagName("tipo_respuesta");
@@ -66,7 +88,7 @@ namespace FELFactura
             }
         }
 
-        private bool validateEmply(String token, String XMLInvoice)
+        private bool validateEmply(String token, String XMLInvoice, String XMLDetailInvoce)
         {
             try
             {
@@ -80,6 +102,13 @@ namespace FELFactura
                 if (string.IsNullOrEmpty(XMLInvoice))
                 {
                     this.strreponsexml = GetResponseXML("Error, Datos de Factura no han sido enviados ", "1", this.strreponsexml);
+                    return false;
+                }
+
+
+                if (string.IsNullOrEmpty(XMLDetailInvoce))
+                {
+                    this.strreponsexml = GetResponseXML("Error, Detalles de Factura no han sido enviados ", "1", this.strreponsexml);
                     return false;
                 }
 

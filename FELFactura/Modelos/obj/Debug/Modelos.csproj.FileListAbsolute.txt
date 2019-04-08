@@ -21,3 +21,6 @@ C:\Users\leyla\Documents\FEL\FELFactura\Modelos\bin\Debug\Modelos.pdb
 C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Debug\Modelos.csproj.CoreCompileInputs.cache
 C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Debug\Modelos.dll
 C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Debug\Modelos.pdb
+C:\Users\leyla\Documents\FEL\FELFactura\Modelos\bin\Debug\Modelos.dll.CodeAnalysisLog.xml
+C:\Users\leyla\Documents\FEL\FELFactura\Modelos\bin\Debug\Modelos.dll.lastcodeanalysissucceeded
+C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Debug\Modelos.csprojAssemblyReference.cache

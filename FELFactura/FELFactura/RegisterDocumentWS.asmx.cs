@@ -16,7 +16,7 @@ namespace FELFactura
     // [System.Web.Script.Services.ScriptService]
     public class RegisterDocumentWS : System.Web.Services.WebService
     {
-        static RegisterDocument ws = Instancia.getInstancia(1);
+        RegisterDocument ws = new RegisterDocument();
         ValidateDocument wsvalidate = new ValidateDocument();
         XMLFactura xml = new XMLFactura();
         DataSet strreponsexml = new DataSet();
@@ -26,18 +26,7 @@ namespace FELFactura
         {
             try {
 
-/*                XMLInvoice = "<?xml version = \"1.0\" encoding=\"Windows-1252\" standalone=\"yes\"?>" +
-    "<VFPData><temp_fact_header>	<codigomoneda>GTQ</codigomoneda><fechahoraemision>2019-04-03T08:22:00</fechahoraemision><numeroaccesso>990005696</numeroaccesso><afiliacioniva>GEN</afiliacioniva>	<codigoestablecimiento>01</codigoestablecimiento>	<nitemisor>3225607</nitemisor>" +
-            "<nombreemisor>No Aplica</nombreemisor><correoemisor/><direccionemisor>Guatemala</direccionemisor><codigopostalemisor>123</codigopostalemisor><paisemisor>GT</paisemisor><departamentoemisor>Guatemala</departamentoemisor><municipioemisor>Guatemala</municipioemisor>" +
-            "<nombrecomercial>Mayaquimicos</nombrecomercial><correoreceptor/><idreceptor>3225607</idreceptor><nombrereceptor>Maya Quimicos, S. A.</nombrereceptor><direccionreceptor>4ta. Calle 7-53 Zona 9 Of 405</direccionreceptor>" +
-            "<codigopostalreceptor>1234</codigopostalreceptor><paisreceptor>GT</paisreceptor><departamentoreceptor>GUATEMALA</departamentoreceptor><municipioreceptor>GUATEMALA</municipioreceptor>" +
-            "<grantotal>1767.36000</grantotal></temp_fact_header></VFPData>";
-
-
-                XMLDetailInvoce = "<?xml version = \"1.0\" encoding=\"Windows-1252\" standalone=\"yes\"?><VFPData>	<temp_fact_detail>		<bienoservicio>S</bienoservicio>		<numerolinea>1</numerolinea>		<cantidad>3.00000</cantidad>" +
-            "<unidadmedida>UNI</unidadmedida><descripcion>Pago de Servicio de Seguridad</descripcion><preciounitario>589.12000</preciounitario>	<precio>1767.36000</precio>	<total>1767.36000</total>	<impuestonombrecorto>IVA</impuestonombrecorto>	<codigounidadgravable>1</codigounidadgravable>	<montogravable>1578.00000</montogravable>" +
-            "<montoimpuesto>189.36000</montoimpuesto><descuento>.00000</descuento></temp_fact_detail></VFPData>";*/
-//VALIDAR QUE NO ESTEN VACIOS LOS  DATOS ENVIADOS
+                //VALIDAR QUE NO ESTEN VACIOS LOS  DATOS ENVIADOS
                 if (!validateEmply(token, XMLInvoice, XMLDetailInvoce))
                     {
                         return strreponsexml;
@@ -49,7 +38,7 @@ namespace FELFactura
                     String xmlDoc = xml.getXML( XMLInvoice, XMLDetailInvoce,path,fac_num);
 
                    //SE ENVIA EL XML PARA EL WS DE VALIDACION
-                    XmlDocument validate = wsvalidate.validar(token, xmlDoc);
+                   XmlDocument validate = wsvalidate.validar(token, xmlDoc);
 
                     // SE VERIFICA EL RESULTADO DE LA RESPUESTA
                     XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
