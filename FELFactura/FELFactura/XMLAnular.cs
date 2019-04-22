@@ -35,7 +35,6 @@ namespace FELFactura
             v_rootxml = v_rootxml + @"\" + nombre;
 
             XmlDocument myXML = FirmaDocumento.FirmarDocumentoAnulacion(Constants.URL_CERTIFICADO, Constants.URL_CERTIFICADO_CONTRASENIA, path, nombre, path);
-
             String data =getPostData(myXML.InnerXml);
             return data ;
 
@@ -45,8 +44,9 @@ namespace FELFactura
         private String getPostData(String data)
         {
 
+            string uuid = Guid.NewGuid().ToString().ToUpper();
             String request = "<?xml version='1.0' encoding='UTF-8'?>\n" +
-              "<AnulaDocumentoXMLRequest id=\"" + anular.uuid + "\">\n" +
+              "<AnulaDocumentoXMLRequest id=\"" + uuid + "\">\n" +
                         "<xml_dte>" +
                             " <![CDATA[" + data + "]]>\n" +
                             "</xml_dte>\n" +

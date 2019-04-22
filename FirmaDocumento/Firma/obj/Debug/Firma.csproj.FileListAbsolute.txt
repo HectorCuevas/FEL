@@ -58,6 +58,4 @@ C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.csproj.CoreCom
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.csproj.CopyComplete
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.dll
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.pdb
-C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Debug\Firma.dll.CodeAnalysisLog.xml
-C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Debug\Firma.dll.lastcodeanalysissucceeded
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Debug\Firma.csprojAssemblyReference.cache

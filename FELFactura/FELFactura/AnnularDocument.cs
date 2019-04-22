@@ -13,18 +13,19 @@ namespace FELFactura
     public class AnnularDocument
     {
 
-        public XmlDocument annularDte(String token, String dataXml)
+        public XmlDocument annularDte(String token, String dataXml,String url)
         {
             //ENVIANDO DOCUMENTO
-            var request = (HttpWebRequest)WebRequest.Create(Constants.URL_ANULAR_DOCUMENTO);
+            var request = (HttpWebRequest)WebRequest.Create(url+Constants.URL_ANULAR_DOCUMENTO);
             var postData = dataXml;
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(postData.ToString());
             var data = Encoding.ASCII.GetBytes(xmlDoc.InnerXml);
-            request.Headers.Add("authorization", "Bearer " + token.ToString().Trim());
+            request.Headers.Add("Authorization", "Bearer " + token.ToString().Trim());
             request.Method = "POST";
             request.ContentType = "application/xml";
             request.ContentLength = data.Length;
+
 
             using (var stream = request.GetRequestStream())
             {

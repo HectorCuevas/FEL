@@ -237,5 +237,3 @@ C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\obj\Debug\FELFactura.csproj.C
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\obj\Debug\FELFactura.csproj.CopyComplete
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\obj\Debug\FELFactura.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\obj\Debug\FELFactura.pdb
-C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.dll.CodeAnalysisLog.xml
-C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.dll.lastcodeanalysissucceeded

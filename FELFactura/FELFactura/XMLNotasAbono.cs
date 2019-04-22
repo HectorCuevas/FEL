@@ -74,7 +74,7 @@ namespace FELFactura
         private void ReaderDataset()
         {
 
-            LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales, Constants.TIPO_FACTURA);
+            LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales, Constants.TIPO_NOTA_ABONO);
             LlenarEstructuras.DatosEmisor(dstinvoicexml,  emisor);
             LlenarEstructuras.DatosReceptor( dstinvoicexml,  receptor, datosGenerales);
             LlenarEstructuras.DatosItems(dstdetailinvoicexml, items);
@@ -154,23 +154,13 @@ namespace FELFactura
             DireccionReceptor.Add(MunicipioReceptor);
             DireccionReceptor.Add(DepartamentoReceptor);
             DireccionReceptor.Add(PaisReceptor);
-
-            //frases
-            XElement Frases = new XElement(dte + "Frases");
-            DatosEmision.Add(Frases);
-            XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", Constants.FRASE_CODIGO_1), new XAttribute("TipoFrase", Constants.FRASE_1));
-            Frases.Add(Frase1);
-            //XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", Constants.FRASE_CODIGO_2), new XAttribute("TipoFrase", Constants.FRASE_2));
-            //Frases.Add(Frase2);
-
             // detalle de factura 
-
             XElement Items = new XElement(dte + "Items");
             DatosEmision.Add(Items);
-            if (this.items!=null) {
-                foreach (Item item in this.items) {
-                    //Items
-
+            if (this.items != null)
+            {
+                foreach (Item item in this.items)
+                {
 
                     //item
                     XElement Item = new XElement(dte + "Item", new XAttribute("BienOServicio", item.BienOServicio), new XAttribute("NumeroLinea", item.NumeroLinea));
@@ -181,8 +171,6 @@ namespace FELFactura
                     XElement Precio = new XElement(dte + "Precio", item.Precio);
                     XElement Descuento = new XElement(dte + "Descuento", item.Descuento);
                     XElement TotalItem = new XElement(dte + "Total", item.Total);
-                    //impuestos
-                    XElement Impuestos = new XElement(dte + "Impuestos");
 
                     Item.Add(Cantidad);
                     Item.Add(UnidadMedida);
@@ -190,40 +178,15 @@ namespace FELFactura
                     Item.Add(PrecioUnitario);
                     Item.Add(Precio);
                     Item.Add(Descuento);
-                    Item.Add(Impuestos);
                     Item.Add(TotalItem);
                     Items.Add(Item);
 
-
-
-                    //impuesto por item
-                 if (item.impuestos != null) {
-                        foreach (Impuesto im in item.impuestos) {
-                            XElement Impuesto = new XElement(dte + "Impuesto");
-                            XElement NombreCorto = new XElement(dte + "NombreCorto", im.NombreCorto);
-                            XElement CodigoUnidadGravable = new XElement(dte + "CodigoUnidadGravable", im.CodigoUnidadGravable);
-                            XElement MontoGravable = new XElement(dte + "MontoGravable", im.MontoGravable);
-                          //  XElement CantidadUnidadesGravables = new XElement(dte + "CantidadUnidadesGravables", im.CantidadUnidadesGravables);
-                            XElement MontoImpuesto = new XElement(dte + "MontoImpuesto", im.MontoImpuesto);
-                            Impuesto.Add(NombreCorto);
-                            Impuesto.Add(CodigoUnidadGravable);
-                            Impuesto.Add(MontoGravable);
-                            //Impuesto.Add(CantidadUnidadesGravables);
-                            Impuesto.Add(MontoImpuesto);
-                            Impuestos.Add(Impuesto);
-                        }                    
-                 }
-               }
+                }
             }
+
             //Totales
             XElement Totales = new XElement(dte + "Totales");
             DatosEmision.Add(Totales);
-
-            //total impuestos
-            XElement TotalImpuestos = new XElement(dte + "TotalImpuestos");
-            XElement TotalImpuesto = new XElement(dte + "TotalImpuesto", new XAttribute("NombreCorto", totales.NombreCorto), new XAttribute("TotalMontoImpuesto", totales.TotalMontoImpuesto));
-            TotalImpuestos.Add(TotalImpuesto);
-            Totales.Add(TotalImpuestos);
 
             //total general
             XElement GranTotal = new XElement(dte + "GranTotal", totales.GranTotal);

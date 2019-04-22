@@ -13,10 +13,10 @@ namespace FELFactura
     {
     
         
-        public XmlDocument registerDte(String token,String dataXml)
+        public XmlDocument registerDte(String token,String dataXml,String url)
         {
             //ENVIANDO DOCUMENTO
-            var request = (HttpWebRequest)WebRequest.Create(Constants.URL_REGISTRAR_DOCUMENTO);
+            var request = (HttpWebRequest)WebRequest.Create(url+Constants.URL_REGISTRAR_DOCUMENTO);
             var postData = getPostData(dataXml);
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(postData.ToString());

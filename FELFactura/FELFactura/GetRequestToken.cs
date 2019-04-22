@@ -14,11 +14,11 @@ namespace FELFactura
 
        private  DataSet strreponsexml =  new DataSet();
 
-        public XmlDocument getToken(String user, String apikey)
+        public XmlDocument getToken(String user, String apikey, String url)
         {
 
-            String Url = Constants.URL_SOLICITAR_TOKEN;
-            var request = (HttpWebRequest)WebRequest.Create(Url);
+             url = url+Constants.URL_SOLICITAR_TOKEN;
+            var request = (HttpWebRequest)WebRequest.Create(url);
             var postData = getPostData(user, apikey);
 
             XmlDocument xmlDoc = new XmlDocument();

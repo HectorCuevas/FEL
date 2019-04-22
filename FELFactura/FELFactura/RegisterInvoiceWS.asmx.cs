@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Services;
+
+
 using System.Data;
 using System.Xml;
 
@@ -7,85 +12,87 @@ using System.IO;
 namespace FELFactura
 {
     /// <summary>
-    /// Descripción breve de RegisterDocumentWS
+    /// Summary description for RegisterInvoiceWS
     /// </summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
-    // Para permitir que se llame a este servicio web desde un script, usando ASP.NET AJAX, quite la marca de comentario de la línea siguiente. 
+    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     // [System.Web.Script.Services.ScriptService]
-    public class RegisterDocumentWS : System.Web.Services.WebService
+    public class RegisterInvoiceWS : System.Web.Services.WebService
     {
         RegisterDocument ws = new RegisterDocument();
         ValidateDocument wsvalidate = new ValidateDocument();
-        XMLFacturaCambiaria xml = new XMLFacturaCambiaria();
+        XMLFactura xml = new XMLFactura();
         DataSet strreponsexml = new DataSet();
 
         [WebMethod]
-        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num,String url)
+        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num, String url)
         {
-            try {
+            try
+            {
 
                 //VALIDAR QUE NO ESTEN VACIOS LOS  DATOS ENVIADOS
                 if (!validateEmply(token, XMLInvoice, XMLDetailInvoce))
-                    {
-                        return strreponsexml;
-                    }
+                {
+                    return strreponsexml;
+                }
 
-                    //TODO VALIDAR QUE  SI EL DOCUMENTO YA EXISTE SOLO DEVUELVA EL UUID
-        
-                    //SE ENVIA DATOS PARA QUE ARME LA ESTRUCTURA DE XML
-                    String xmlDoc = xml.getXML( XMLInvoice, XMLDetailInvoce,path,fac_num);
+                //TODO VALIDAR QUE  SI EL DOCUMENTO YA EXISTE SOLO DEVUELVA EL UUID
 
-                   //SE ENVIA EL XML PARA EL WS DE VALIDACION
-                   XmlDocument validate = wsvalidate.validar(token, xmlDoc,url);
+                //SE ENVIA DATOS PARA QUE ARME LA ESTRUCTURA DE XML
+                String xmlDoc = xml.getXML(XMLInvoice, XMLDetailInvoce, path, fac_num);
 
-                    // SE VERIFICA EL RESULTADO DE LA RESPUESTA
-                    XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
-                    string error = resNodo[0].InnerXml;
-                     
-                    if ("1".Equals(error.ToString()))
-                    {
-                
-                        String errorDescp = getError(validate);
-                        strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
-                        return strreponsexml;
-                    }
+                //SE ENVIA EL XML PARA EL WS DE VALIDACION
+                XmlDocument validate = wsvalidate.validar(token, xmlDoc, url);
 
-                    //SE ENVIA XML PARA REGISTRAR DOCUMENTO
-                    XmlDocument register = ws.registerDte(token, xmlDoc,url);
+                // SE VERIFICA EL RESULTADO DE LA RESPUESTA
+                XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
+                string error = resNodo[0].InnerXml;
 
-                    //SE VALIDA RESPUESTA DEL SERVICIO
-                    XmlNodeList resReg = register.GetElementsByTagName("tipo_respuesta");
-                    string errorRes = resReg[0].InnerXml;
+                if ("1".Equals(error.ToString()))
+                {
 
-                    // SI EL SERVICIO RETORNA ERROR SE ARMA LA ESTRUCTURA PARA RESPONDER LOS ERRORES A PROFIT
-                    if ("1".Equals(errorRes.ToString()))
-                    {
-                
-                        String errorDescp = getError(register);
-                        strreponsexml = GetResponseXML(errorDescp, errorRes, this.strreponsexml);
-                        return strreponsexml;
-                    }
+                    String errorDescp = getError(validate);
+                    strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
+                    return strreponsexml;
+                }
 
-                    //SI EL SERVICIO FUE RETORNA EXITOSO RETORNA UUID GENERADO POR EL FIRMADO ELECTRONICO
-                    XmlNodeList uuidNodo = register.GetElementsByTagName("uuid");
-                    string uuid = uuidNodo[0].InnerXml;
-                    strreponsexml = GetResponseXML("Transacción Exitosa", uuid, errorRes, this.strreponsexml);
+                //SE ENVIA XML PARA REGISTRAR DOCUMENTO
+                XmlDocument register = ws.registerDte(token, xmlDoc, url);
 
-                      return strreponsexml;
+                //SE VALIDA RESPUESTA DEL SERVICIO
+                XmlNodeList resReg = register.GetElementsByTagName("tipo_respuesta");
+                string errorRes = resReg[0].InnerXml;
+
+                // SI EL SERVICIO RETORNA ERROR SE ARMA LA ESTRUCTURA PARA RESPONDER LOS ERRORES A PROFIT
+                if ("1".Equals(errorRes.ToString()))
+                {
+
+                    String errorDescp = getError(register);
+                    strreponsexml = GetResponseXML(errorDescp, errorRes, this.strreponsexml);
+                    return strreponsexml;
+                }
+
+                //SI EL SERVICIO FUE RETORNA EXITOSO RETORNA UUID GENERADO POR EL FIRMADO ELECTRONICO
+                XmlNodeList uuidNodo = register.GetElementsByTagName("uuid");
+                string uuid = uuidNodo[0].InnerXml;
+                strreponsexml = GetResponseXML("Transacción Exitosa", uuid, errorRes, this.strreponsexml);
+
+                return strreponsexml;
             }
             catch (Exception e)
             {
-                    this.strreponsexml = GetResponseXML("Ha ocurrido una excepción no controlada en el sistema \n "+e.Message, "1", this.strreponsexml);
-                    return strreponsexml;
+                this.strreponsexml = GetResponseXML("Ha ocurrido una excepción no controlada en el sistema \n " + e.Message, "1", this.strreponsexml);
+                return strreponsexml;
 
             }
         }
 
         private bool validateEmply(String token, String XMLInvoice, String XMLDetailInvoce)
         {
-            try {
+            try
+            {
 
                 if (string.IsNullOrEmpty(token))
                 {
@@ -105,9 +112,10 @@ namespace FELFactura
                     this.strreponsexml = GetResponseXML("Error, Detalles de Factura no han sido enviados ", "1", this.strreponsexml);
                     return false;
                 }
-               
 
-            } catch (Exception e )
+
+            }
+            catch (Exception e)
             {
                 this.strreponsexml = GetResponseXML("Ha ocurrido una excepción no controlada en el sistema \n " + e.Message, "1", this.strreponsexml);
                 return false;
@@ -115,10 +123,10 @@ namespace FELFactura
             }
             return true;
         }
-         
-        
 
-        private DataSet GetResponseXML(String valor,  string errores, DataSet strreponsexml)
+
+
+        private DataSet GetResponseXML(String valor, string errores, DataSet strreponsexml)
         {
             try
             {
@@ -159,11 +167,11 @@ namespace FELFactura
             return strreponsexml;
         }
 
-        private DataSet GetResponseXML(String valor,String uuid, string errores, DataSet strreponsexml)
+        private DataSet GetResponseXML(String valor, String uuid, string errores, DataSet strreponsexml)
         {
             try
             {
-   
+
                 strreponsexml = new DataSet();
                 if (valor == null)
                 { valor = " "; }
@@ -211,7 +219,7 @@ namespace FELFactura
         private String getError(XmlDocument doc)
         {
 
-        
+
             XmlNode unEmpleado;
             String errores = "";
             XmlNodeList lst = doc.GetElementsByTagName("error");
@@ -231,5 +239,6 @@ namespace FELFactura
             }
             return errores;
         }
+
     }
 }

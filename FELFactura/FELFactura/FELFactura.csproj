@@ -68,7 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AnnularDocumentWS.asmx" />
+    <Content Include="CreditNoteWS.asmx" />
+    <Content Include="DebitNoteWS.asmx" />
+    <Content Include="PaymentNoteWS.asmx" />
     <Content Include="RegisterDocumentWS.asmx" />
+    <Content Include="RegisterInvoiceWS.asmx" />
     <Content Include="RegisterSpecialInvoiceWS.asmx" />
     <Content Include="SolicitarToken.asmx" />
     <Content Include="Web.config" />
@@ -77,6 +81,22 @@
     <Compile Include="AnnularDocument.cs" />
     <Compile Include="AnnularDocumentWS.asmx.cs">
       <DependentUpon>AnnularDocumentWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CreditNoteWS.asmx.cs">
+      <DependentUpon>CreditNoteWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DebitNoteWS.asmx.cs">
+      <DependentUpon>DebitNoteWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PaymentNoteWS.asmx.cs">
+      <DependentUpon>PaymentNoteWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RegisterInvoiceWS.asmx.cs">
+      <DependentUpon>RegisterInvoiceWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils.cs" />
@@ -101,6 +121,10 @@
     </Compile>
     <Compile Include="XMLAnular.cs" />
     <Compile Include="XMLFactura.cs" />
+    <Compile Include="XMLNotaDebito.cs" />
+    <Compile Include="XMLNotaCredito.cs" />
+    <Compile Include="XMLNotasAbono.cs" />
+    <Compile Include="XMLFacturaCambiaria.cs" />
     <Compile Include="XMLFacturaEspecial.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,10 +17,10 @@ namespace FELFactura
         GetRequestToken ws = new GetRequestToken();
         DataSet strreponsexml = new DataSet();
         [WebMethod]
-        public DataSet getToken(String user, String apikey)
+        public DataSet getToken(String user, String apikey, String url)
         {
 
-            XmlDocument xmlResponse = ws.getToken(user, apikey);
+            XmlDocument xmlResponse = ws.getToken(user, apikey,url);
             XmlNodeList tokenNodo = xmlResponse.GetElementsByTagName("token");
             string token = tokenNodo[0].InnerXml;
             XmlNodeList resNodo = xmlResponse.GetElementsByTagName("tipo_respuesta");

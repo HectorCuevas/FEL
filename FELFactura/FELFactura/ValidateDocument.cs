@@ -13,10 +13,10 @@ namespace FELFactura
     {
 
         
-        public XmlDocument validar(String token,String dataXml)
+        public XmlDocument validar(String token,String dataXml,String url)
         {
             //ENVIANDO DOCUMENTO
-            var request = (HttpWebRequest)WebRequest.Create(Constants.URL_VAIDAR_DOCUMENTO);
+            var request = (HttpWebRequest)WebRequest.Create(url+Constants.URL_VAIDAR_DOCUMENTO);
             var postData = getPostData(dataXml);
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(postData.ToString());

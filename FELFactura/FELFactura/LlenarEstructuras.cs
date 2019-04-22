@@ -330,29 +330,30 @@ namespace FELFactura
         }
 
 
-        public static void DatosComplementos(DataSet dstdetailinvoicexml, Complementos c, List<Item> items)
+        public static void DatosComplementos(DataSet dstinvoicexml, Complementos c, Totales t, List<Item> items)
         {
 
             Double retencionIVA = 0d;
-            Double retencionISR = 0d;
-            Double totalSinRetencion = 0d;
-            foreach (DataRow reader in dstdetailinvoicexml.Tables[0].Rows)
+            Double totalSinRetenciones = 0d;
+            foreach (DataRow reader in dstinvoicexml.Tables[0].Rows)
             {
-                var retencion = reader["retencion"];
+                var retencion = reader["totalretenciones"];
                 if (retencion != null)
                 {
-                    retencionISR = retencionISR + Double.Parse(retencion.ToString());
-
+                    c.RetencionISR = retencion.ToString();
                 }
+              
+
+                    
             }
-            if (items !=null)
+
+           if (items !=null)
             {
                 foreach (Item  i in items)
                 {
-                    totalSinRetencion= totalSinRetencion + Double.Parse(i.Precio);
-                    foreach (Impuesto im in i.impuestos) {
-
-                        if (im.MontoImpuesto != null)
+                    foreach (Impuesto im in i.impuestos)
+                    {
+                     if (im.MontoImpuesto != null)
                         {
                             retencionIVA = retencionIVA + Double.Parse(im.MontoImpuesto);
 
@@ -365,10 +366,18 @@ namespace FELFactura
 
             }
 
+            
+            if (c.RetencionISR!=null &&  t.GranTotal!=null)
+            {
+                double isr = Double.Parse(c.RetencionISR);
+                double total = Double.Parse(t.GranTotal);
+
+                totalSinRetenciones = total - isr - retencionIVA;
+            
+            }
 
             c.RetencionIVA = retencionIVA.ToString();
-            c.RetencionISR = retencionISR.ToString();
-            c.TotalMenosRetenciones = totalSinRetencion.ToString();
+            c.TotalMenosRetenciones = totalSinRetenciones.ToString();
 
         }
 

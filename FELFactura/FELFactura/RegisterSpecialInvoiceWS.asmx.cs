@@ -26,7 +26,7 @@ namespace FELFactura
         DataSet strreponsexml = new DataSet();
 
         [WebMethod]
-        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num)
+        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num,String url )
         {
             try
             {
@@ -43,7 +43,7 @@ namespace FELFactura
                 String xmlDoc = xml.getXML(XMLInvoice, XMLDetailInvoce, path, fac_num);
 
                 //SE ENVIA EL XML PARA EL WS DE VALIDACION
-                XmlDocument validate = wsvalidate.validar(token, xmlDoc);
+                XmlDocument validate = wsvalidate.validar(token, xmlDoc, url);
 
                 // SE VERIFICA EL RESULTADO DE LA RESPUESTA
                 XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
@@ -58,7 +58,7 @@ namespace FELFactura
                 }
 
                 //SE ENVIA XML PARA REGISTRAR DOCUMENTO
-                XmlDocument register = ws.registerDte(token, xmlDoc);
+                XmlDocument register = ws.registerDte(token, xmlDoc,url);
 
                 //SE VALIDA RESPUESTA DEL SERVICIO
                 XmlNodeList resReg = register.GetElementsByTagName("tipo_respuesta");

@@ -87,6 +87,7 @@ namespace FELFactura
 
            private String getXML()
         {
+            
             XNamespace dte = XNamespace.Get("http://www.sat.gob.gt/dte/fel/0.1.0");
             XNamespace xd = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#");
             //Encabezado del Documento
@@ -158,10 +159,9 @@ namespace FELFactura
             //frases
             XElement Frases = new XElement(dte + "Frases");
             DatosEmision.Add(Frases);
-            XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", Constants.FRASE_CODIGO_1), new XAttribute("TipoFrase", Constants.FRASE_1));
+            XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "1"));
             Frases.Add(Frase1);
-            //XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", Constants.FRASE_CODIGO_2), new XAttribute("TipoFrase", Constants.FRASE_2));
-            //Frases.Add(Frase2);
+
 
             // detalle de factura 
 
@@ -228,6 +228,7 @@ namespace FELFactura
             //total general
             XElement GranTotal = new XElement(dte + "GranTotal", totales.GranTotal);
             Totales.Add(GranTotal);
+
 
 
 

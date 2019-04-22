@@ -9,7 +9,7 @@ using Firma;
 
 namespace FELFactura
 {
-    public class XMLFacturaEspecial
+    public class XMLNotaCredito
     {
         private DataSet dstinvoicexml = new DataSet();
         private DataSet dstdetailinvoicexml = new DataSet();
@@ -72,12 +72,12 @@ namespace FELFactura
         private void ReaderDataset()
         {
 
-            LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales, Constants.TIPO_FACTURA_ESPECIAL);
+            LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales, Constants.TIPO_NOTA_CREDITO);
             LlenarEstructuras.DatosEmisor(dstinvoicexml, emisor);
             LlenarEstructuras.DatosReceptor(dstinvoicexml, receptor, datosGenerales);
             LlenarEstructuras.DatosItems(dstdetailinvoicexml, items);
+            LlenarEstructuras.DatosComplementos(dstdetailinvoicexml, complementos,totales, items);
             LlenarEstructuras.Totales(dstinvoicexml, totales, items);
-            LlenarEstructuras.DatosComplementos(dstinvoicexml,complementos, totales, items);
         }
 
 
@@ -157,7 +157,6 @@ namespace FELFactura
             DireccionReceptor.Add(DepartamentoReceptor);
             DireccionReceptor.Add(PaisReceptor);
 
-          
             // detalle de factura 
 
             XElement Items = new XElement(dte + "Items");
@@ -224,7 +223,7 @@ namespace FELFactura
             XElement Complemento = new XElement(dte + "Complemento", new XAttribute("NombreComplemento", "ncomp"), new XAttribute("URIComplemento", "http://www.sat.gob.gt/face2/ComplementoFacturaEspecial/0.1.0"));
             Complementos.Add(Complemento);
 
-            XElement RetencionesFacturaEspecial = new XElement(cfe + "RetencionesFacturaEspecial", 
+            XElement RetencionesFacturaEspecial = new XElement(cfe + "Complementos", 
                            new XAttribute(XNamespace.Xmlns + "cfe", cfe.NamespaceName),
                            new XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
                            new XAttribute( "Version", "1")
