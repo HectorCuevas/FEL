@@ -11,7 +11,7 @@ using Modelos;
 using Firma;
 namespace FELFactura
 {
-    public class XMLNotasAbono
+    public class XMLNotasAbono : INoteRegister
     {
         
         private DataSet dstinvoicexml = new DataSet();
@@ -89,6 +89,7 @@ namespace FELFactura
         {
             XNamespace dte = XNamespace.Get("http://www.sat.gob.gt/dte/fel/0.1.0");
             XNamespace xd = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#");
+          
             //Encabezado del Documento
             XDeclaration declaracion = new XDeclaration("1.0", "utf-8", "no");
 
@@ -196,8 +197,7 @@ namespace FELFactura
 
             XDocument myXML = new XDocument(declaracion, parameters);
             String res = myXML.ToString();
-            res = Utils.replace(res);
-
+          
             try
             {
                 v_rootxml = string.Format(@"{0}\{1}.xml", v_rootxml, fac_num.Trim());

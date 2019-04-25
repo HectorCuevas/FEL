@@ -35,9 +35,7 @@ namespace FELFactura
                 //SE ENVIA DATOS PARA QUE ARME LA ESTRUCTURA DE XML
                 String xmlDoc = xml.getXML(XMLInvoice, path, fac_num);
 
-
                 //SE ENVIA XML PARA REGISTRAR DOCUMENTO
-                token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJvcGVuaWQiXSwiZXhwIjoxNTg2OTcwNTcwLCJhdXRob3JpdGllcyI6WyJST0xFX0VNSVNPUiJdLCJqdGkiOiJmZjkzYzYxNS00NWU3LTQwYjgtODJjNy00ZGQxZGIwYWZkMjgiLCJjbGllbnRfaWQiOiIzMjI1NjA3In0.nSbkVJK8oId1vg0LcnX9e8tacpnAu7i_PPvw3jY_2TdzgOrEC56so6fdd35nMkgYp27_przfxackFxnTDTaR6dLi65p4PKvjUUG2MNifN6cxGv1NwyVT9qaxNdy_lIDM9JIyaE5WuihJtC4c5K8RTipeiTH-78gBgde_JyXk1sahc-NgrM1LM-gZ0XTp8XwltpUxpT1mnHQ7vYdl1B3QDZg-Onk-JGQ4YiWyAEzFpRIFJgXjG4qOjIwdrq851xwmBK9DHNLf81RcIMiTsX9LbtP56QKDeRpe3rOyTrJfoYGhN9E2OqIWNLMjjBYg6cN3r5IQnDXRP_nM1sUqaOBUU";
                 XmlDocument register = ws.annularDte(token, xmlDoc,url);
 
                 //SE VALIDA RESPUESTA DEL SERVICIO

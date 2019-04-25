@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\leyla\Desktop\efactura</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\leyla\Desktop\fel</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="AnnularDocumentWS.asmx">
@@ -19,16 +19,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:07:04</publishTime>
     </File>
     <File Include="bin/FELFactura.dll">
-      <publishTime>04/24/2019 09:59:08</publishTime>
+      <publishTime>04/24/2019 18:20:27</publishTime>
     </File>
     <File Include="bin/FELFactura.pdb">
-      <publishTime>04/24/2019 09:59:08</publishTime>
+      <publishTime>04/24/2019 18:20:27</publishTime>
     </File>
     <File Include="bin/Firma.dll">
-      <publishTime>04/22/2019 15:05:21</publishTime>
+      <publishTime>04/24/2019 18:20:27</publishTime>
     </File>
     <File Include="bin/Firma.pdb">
-      <publishTime>04/22/2019 15:05:21</publishTime>
+      <publishTime>04/24/2019 18:20:27</publishTime>
     </File>
     <File Include="bin/FirmaXadesNet.dll">
       <publishTime>02/19/2019 15:06:08</publishTime>
@@ -40,10 +40,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:06:06</publishTime>
     </File>
     <File Include="bin/Modelos.dll">
-      <publishTime>04/22/2019 15:05:21</publishTime>
+      <publishTime>04/24/2019 18:20:27</publishTime>
     </File>
     <File Include="bin/Modelos.pdb">
-      <publishTime>04/22/2019 15:05:21</publishTime>
+      <publishTime>04/24/2019 18:20:27</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/24/2018 13:38:22</publishTime>
@@ -208,7 +208,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2019 21:28:54</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/03/2019 14:50:54</publishTime>
+      <publishTime>04/24/2019 18:21:34</publishTime>
     </File>
   </ItemGroup>
 </Project>

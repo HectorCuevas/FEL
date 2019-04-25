@@ -161,8 +161,8 @@ namespace FELFactura
             DatosEmision.Add(Frases);
             XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "1"));
             Frases.Add(Frase1);
-            //XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", Constants.FRASE_CODIGO_2), new XAttribute("TipoFrase", Constants.FRASE_2));
-            //Frases.Add(Frase2);
+            XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "2"));
+             Frases.Add(Frase2);
 
             // detalle de factura 
 
@@ -261,8 +261,7 @@ namespace FELFactura
 
             XDocument myXML = new XDocument(declaracion, parameters);
             String res = myXML.ToString();
-            res = Utils.replace(res);
-
+          
             try
             {
                 v_rootxml = string.Format(@"{0}\{1}.xml", v_rootxml, fac_num.Trim());

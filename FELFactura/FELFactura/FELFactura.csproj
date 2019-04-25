@@ -70,6 +70,7 @@
     <Content Include="AnnularDocumentWS.asmx" />
     <Content Include="CreditNoteWS.asmx" />
     <Content Include="DebitNoteWS.asmx" />
+    <Content Include="NoteRegisterWS.asmx" />
     <Content Include="PaymentNoteWS.asmx" />
     <Content Include="RegisterDocumentWS.asmx" />
     <Content Include="RegisterInvoiceWS.asmx" />
@@ -91,6 +92,11 @@
       <DependentUpon>DebitNoteWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="INoteRegister.cs" />
+    <Compile Include="NoteRegisterWS.asmx.cs">
+      <DependentUpon>NoteRegisterWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PaymentNoteWS.asmx.cs">
       <DependentUpon>PaymentNoteWS.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -99,7 +105,6 @@
       <DependentUpon>RegisterInvoiceWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utils.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GetRequestToken.cs" />
     <Compile Include="LlenarEstructuras.cs" />
@@ -132,6 +137,7 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile3.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

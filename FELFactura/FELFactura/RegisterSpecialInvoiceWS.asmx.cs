@@ -43,19 +43,19 @@ namespace FELFactura
                 String xmlDoc = xml.getXML(XMLInvoice, XMLDetailInvoce, path, fac_num);
 
                 //SE ENVIA EL XML PARA EL WS DE VALIDACION
-                XmlDocument validate = wsvalidate.validar(token, xmlDoc, url);
+                //XmlDocument validate = wsvalidate.validar(token, xmlDoc, url);
 
-                // SE VERIFICA EL RESULTADO DE LA RESPUESTA
-                XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
-                string error = resNodo[0].InnerXml;
+                //// SE VERIFICA EL RESULTADO DE LA RESPUESTA
+                //XmlNodeList resNodo = validate.GetElementsByTagName("tipo_respuesta");
+                //string error = resNodo[0].InnerXml;
 
-                if ("1".Equals(error.ToString()))
-                {
+                //if ("1".Equals(error.ToString()))
+                //{
 
-                    String errorDescp = getError(validate);
-                    strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
-                    return strreponsexml;
-                }
+                //    String errorDescp = getError(validate);
+                //    strreponsexml = GetResponseXML(errorDescp, error, this.strreponsexml);
+                //    return strreponsexml;
+                //}
 
                 //SE ENVIA XML PARA REGISTRAR DOCUMENTO
                 XmlDocument register = ws.registerDte(token, xmlDoc,url);

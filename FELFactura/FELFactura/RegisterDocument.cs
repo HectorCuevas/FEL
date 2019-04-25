@@ -20,7 +20,7 @@ namespace FELFactura
             var postData = getPostData(dataXml);
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(postData.ToString());
-            var data = Encoding.ASCII.GetBytes(xmlDoc.InnerXml);
+            var data = Encoding.UTF8.GetBytes(xmlDoc.InnerXml);
             request.Headers.Add("authorization", "Bearer " + token.ToString().Trim());
             request.Method = "POST";
             request.ContentType = "application/xml";
@@ -43,7 +43,7 @@ namespace FELFactura
 
         }
 
-        private String getPostData(String data)
+        private String getPostData(String GTDocumento)
         {
     
 
@@ -52,7 +52,7 @@ namespace FELFactura
             String request = "<?xml version='1.0' encoding='UTF-8'?>\n" +
               "<RegistraDocumentoXMLRequest id=\"" + uuid + "\">\n" +
                         "<xml_dte>" +
-                            " <![CDATA[" + data + "]]>\n" +
+                            " <![CDATA[" + GTDocumento + "]]>\n" +
                             "</xml_dte>\n"+
                             "</RegistraDocumentoXMLRequest>";
 

@@ -11,6 +11,42 @@ namespace FELFactura
     public class LlenarEstructuras
     {
 
+
+        
+        public static void DatosReferenciasNota(DataSet dstcompanyxml, ReferenciasNota referenciasNota)
+        {
+
+            foreach (DataRow reader in dstcompanyxml.Tables[0].Rows)
+            {
+                var FechaEmisionDocumentoOrigen = reader["FechaEmisionDocumentoOrigen"];
+                if (FechaEmisionDocumentoOrigen != null)
+                {
+                    referenciasNota.FechaEmisionDocumentoOrigen = FechaEmisionDocumentoOrigen.ToString();
+
+                }
+                var MotivoAjuste = reader["MotivoAjuste"];
+                if (MotivoAjuste != null)
+                {
+                    referenciasNota.MotivoAjuste = MotivoAjuste.ToString();
+
+                }
+                var NumeroAutorizacionDocumentoOrigen = reader["NumeroAutorizacionDocumentoOrigen"];
+                if (NumeroAutorizacionDocumentoOrigen != null)
+                {
+                    referenciasNota.NumeroAutorizacionDocumentoOrigen = NumeroAutorizacionDocumentoOrigen.ToString();
+
+                }
+                var SerieDocumentoOrigen = reader["SerieDocumentoOrigen"];
+                if (SerieDocumentoOrigen != null)
+                {
+                    referenciasNota.SerieDocumentoOrigen = SerieDocumentoOrigen.ToString();
+
+                }
+
+            }
+
+        }
+
         public static void DatosGenerales(DataSet dstcompanyxml, DatosGenerales datosGenerales, string tipo)
         {
 
@@ -334,7 +370,7 @@ namespace FELFactura
         {
 
             Double retencionIVA = 0d;
-            Double totalSinRetenciones = 0d;
+            
             foreach (DataRow reader in dstinvoicexml.Tables[0].Rows)
             {
                 var retencion = reader["totalretenciones"];
@@ -342,9 +378,13 @@ namespace FELFactura
                 {
                     c.RetencionISR = retencion.ToString();
                 }
-              
 
-                    
+                var totalsinisr = reader["totalsinretenciones"];
+                if (totalsinisr != null)
+                {
+                    c.TotalMenosRetenciones = totalsinisr.ToString();
+                }
+
             }
 
            if (items !=null)
@@ -367,17 +407,10 @@ namespace FELFactura
             }
 
             
-            if (c.RetencionISR!=null &&  t.GranTotal!=null)
-            {
-                double isr = Double.Parse(c.RetencionISR);
-                double total = Double.Parse(t.GranTotal);
-
-                totalSinRetenciones = total - isr - retencionIVA;
-            
-            }
+        
 
             c.RetencionIVA = retencionIVA.ToString();
-            c.TotalMenosRetenciones = totalSinRetenciones.ToString();
+            
 
         }
 

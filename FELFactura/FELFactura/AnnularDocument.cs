@@ -20,7 +20,7 @@ namespace FELFactura
             var postData = dataXml;
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(postData.ToString());
-            var data = Encoding.ASCII.GetBytes(xmlDoc.InnerXml);
+            var data = Encoding.UTF8.GetBytes(xmlDoc.InnerXml);
             request.Headers.Add("Authorization", "Bearer " + token.ToString().Trim());
             request.Method = "POST";
             request.ContentType = "application/xml";

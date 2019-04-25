@@ -8,4 +8,3 @@ C:\Users\leyla\Documents\FEL\FELFactura\Modelos\bin\Release\Modelos.pdb
 C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Release\Modelos.csproj.CoreCompileInputs.cache
 C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Release\Modelos.dll
 C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Release\Modelos.pdb
-C:\Users\leyla\Documents\FEL\FELFactura\Modelos\obj\Release\Modelos.csprojAssemblyReference.cache

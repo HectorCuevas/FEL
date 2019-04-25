@@ -9,7 +9,7 @@ using Firma;
 
 namespace FELFactura
 {
-    public class XMLNotaCredito
+    public class XMLNotaCredito : INoteRegister
     {
         private DataSet dstinvoicexml = new DataSet();
         private DataSet dstdetailinvoicexml = new DataSet();
@@ -18,6 +18,7 @@ namespace FELFactura
         private Receptor receptor = new Receptor();
         private List<Item> items = new List<Item>();
         private Totales totales = new Totales();
+        private ReferenciasNota referenciasNota = new ReferenciasNota();
         private Complementos complementos = new Complementos();
         string v_rootxml = "";
         string fac_num = "";
@@ -75,8 +76,8 @@ namespace FELFactura
             LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales, Constants.TIPO_NOTA_CREDITO);
             LlenarEstructuras.DatosEmisor(dstinvoicexml, emisor);
             LlenarEstructuras.DatosReceptor(dstinvoicexml, receptor, datosGenerales);
+            LlenarEstructuras.DatosReferenciasNota(dstinvoicexml, referenciasNota);
             LlenarEstructuras.DatosItems(dstdetailinvoicexml, items);
-            LlenarEstructuras.DatosComplementos(dstdetailinvoicexml, complementos,totales, items);
             LlenarEstructuras.Totales(dstinvoicexml, totales, items);
         }
 
@@ -88,8 +89,7 @@ namespace FELFactura
         {
             XNamespace dte = XNamespace.Get("http://www.sat.gob.gt/dte/fel/0.1.0");
             XNamespace xd = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#");
-            XNamespace cfe = XNamespace.Get("http://www.sat.gob.gt/face2/ComplementoFacturaEspecial/0.1.0");
-            XNamespace xsi = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance");
+            XNamespace cno = XNamespace.Get("http://www.sat.gob.gt/face2/ComplementoReferenciaNota/0.1.0");
         
             //Encabezado del Documento
             XDeclaration declaracion = new XDeclaration("1.0", "utf-8", "no");
@@ -217,25 +217,22 @@ namespace FELFactura
             XElement Totales = new XElement(dte + "Totales");
             DatosEmision.Add(Totales);
 
-            //Complementos de retenciones
+            //Complementos de documento enlazado
             XElement Complementos = new XElement(dte + "Complementos");
             DatosEmision.Add(Complementos);
-            XElement Complemento = new XElement(dte + "Complemento", new XAttribute("NombreComplemento", "ncomp"), new XAttribute("URIComplemento", "http://www.sat.gob.gt/face2/ComplementoFacturaEspecial/0.1.0"));
+            XElement Complemento = new XElement(dte + "Complemento", new XAttribute("NombreComplemento", "ncomp"), new XAttribute("URIComplemento", "http://www.sat.gob.gt/face2/ComplementoReferenciaNota/0.1.0"));
             Complementos.Add(Complemento);
 
-            XElement RetencionesFacturaEspecial = new XElement(cfe + "Complementos", 
-                           new XAttribute(XNamespace.Xmlns + "cfe", cfe.NamespaceName),
-                           new XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
-                           new XAttribute( "Version", "1")
+            XElement ReferenciasNota = new XElement(cno + "ReferenciasNota",
+                new XAttribute(XNamespace.Xmlns + "cno", cno.NamespaceName),
+                new XAttribute("FechaEmisionDocumentoOrigen", referenciasNota.FechaEmisionDocumentoOrigen),
+                new XAttribute("MotivoAjuste", referenciasNota.MotivoAjuste),
+                new XAttribute("NumeroAutorizacionDocumentoOrigen", referenciasNota.NumeroAutorizacionDocumentoOrigen),
+                new XAttribute("SerieDocumentoOrigen", referenciasNota.SerieDocumentoOrigen),
+                new XAttribute( "Version", "0")
                    );
-            Complemento.Add(RetencionesFacturaEspecial);
+            Complemento.Add(ReferenciasNota);
 
-            XElement RetencionISR = new XElement(cfe + "RetencionISR",complementos.RetencionISR);
-            XElement RetencionIVA = new XElement(cfe + "RetencionIVA", complementos.RetencionIVA);
-            XElement TotalMenosRetenciones = new XElement(cfe + "TotalMenosRetenciones", complementos.TotalMenosRetenciones);
-            RetencionesFacturaEspecial.Add(RetencionISR);
-            RetencionesFacturaEspecial.Add(RetencionIVA);
-            RetencionesFacturaEspecial.Add(TotalMenosRetenciones);
 
             //total impuestos
             XElement TotalImpuestos = new XElement(dte + "TotalImpuestos");
@@ -251,8 +248,7 @@ namespace FELFactura
 
             XDocument myXML = new XDocument(declaracion, parameters);
             String res = myXML.ToString();
-            res = Utils.replace(res);
-
+            
             try
             {
                 v_rootxml = string.Format(@"{0}\{1}.xml", v_rootxml, fac_num.Trim());

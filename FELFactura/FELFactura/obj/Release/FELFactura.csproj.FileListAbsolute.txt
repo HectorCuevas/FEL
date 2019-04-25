@@ -62,6 +62,7 @@ C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\Release\FELFactura.csproj.CopyComplete
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\Release\FELFactura.dll
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\Release\FELFactura.pdb
+C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.dll.config
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.pdb
@@ -76,7 +77,6 @@ C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnal
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CSharp.Core.targets
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
