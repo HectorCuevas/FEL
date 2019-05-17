@@ -18,11 +18,11 @@ namespace FELFactura
     {
         RegisterDocument ws = new RegisterDocument();
         ValidateDocument wsvalidate = new ValidateDocument();
-        XMLFacturaCambiaria xml = new XMLFacturaCambiaria();
+        IDocumentRegister xml = null;
         DataSet strreponsexml = new DataSet();
 
         [WebMethod]
-        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num,String url)
+        public DataSet registerDocument(String token, String XMLInvoice, String XMLDetailInvoce, String path, String fac_num,String url, string tipo)
         {
             try {
 
@@ -32,10 +32,12 @@ namespace FELFactura
                         return strreponsexml;
                     }
 
-                    //TODO VALIDAR QUE  SI EL DOCUMENTO YA EXISTE SOLO DEVUELVA EL UUID
-        
-                    //SE ENVIA DATOS PARA QUE ARME LA ESTRUCTURA DE XML
-                    String xmlDoc = xml.getXML( XMLInvoice, XMLDetailInvoce,path,fac_num);
+
+                    abstractFactory(tipo);
+                 //TODO VALIDAR QUE  SI EL DOCUMENTO YA EXISTE SOLO DEVUELVA EL UUID
+
+                 //SE ENVIA DATOS PARA QUE ARME LA ESTRUCTURA DE XML
+                 String xmlDoc = xml.getXML( XMLInvoice, XMLDetailInvoce,path,fac_num);
 
                    //SE ENVIA EL XML PARA EL WS DE VALIDACION
                    //XmlDocument validate = wsvalidate.validar(token, xmlDoc,url);
@@ -81,6 +83,25 @@ namespace FELFactura
                     return strreponsexml;
 
             }
+        }
+
+        private IDocumentRegister abstractFactory(string tipo)
+        {
+            IDocumentRegister notReg = null;
+            switch (tipo)
+            {
+                case "FACT":
+                    xml = new XMLFacturaExportacion();
+                    break;
+                case "FCAM":
+                    xml = new XMLFacturaCambiaria();
+                    break;
+                default:
+                    break;
+            }
+
+
+            return notReg;
         }
 
         private bool validateEmply(String token, String XMLInvoice, String XMLDetailInvoce)

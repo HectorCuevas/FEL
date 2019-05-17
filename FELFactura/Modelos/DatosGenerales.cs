@@ -12,6 +12,7 @@ namespace Modelos
         public string FechaHoraEmision = null;
         public string NumeroAcceso = null;
         public string Tipo = null;
+        public string exenta = null;
 
     }
 }

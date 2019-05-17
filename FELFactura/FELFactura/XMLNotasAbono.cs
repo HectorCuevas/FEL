@@ -11,7 +11,7 @@ using Modelos;
 using Firma;
 namespace FELFactura
 {
-    public class XMLNotasAbono : INoteRegister
+    public class XMLNotasAbono : IDocumentRegister
     {
         
         private DataSet dstinvoicexml = new DataSet();

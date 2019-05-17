@@ -125,6 +125,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="XMLAnular.cs" />
+    <Compile Include="XMLFacturaExportacion.cs" />
     <Compile Include="XMLFactura.cs" />
     <Compile Include="XMLNotaDebito.cs" />
     <Compile Include="XMLNotaCredito.cs" />

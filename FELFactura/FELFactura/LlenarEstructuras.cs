@@ -47,11 +47,20 @@ namespace FELFactura
 
         }
 
-        public static void DatosGenerales(DataSet dstcompanyxml, DatosGenerales datosGenerales, string tipo)
+       public static void DatosGenerales(DataSet dstcompanyxml, DatosGenerales datosGenerales, string tipo)
         {
 
             foreach (DataRow reader in dstcompanyxml.Tables[0].Rows)
             {
+
+
+                var exenta = reader["exenta"];
+                if (exenta != null)
+                {
+                    datosGenerales.exenta = exenta.ToString();
+
+                }
+
                 var CodigoMoneda = reader["codigomoneda"];
                 if (CodigoMoneda != null)
                 {
@@ -365,8 +374,20 @@ namespace FELFactura
             }
         }
 
+        public static void DatosFactExportacion(DataSet dstinvoicexml, Complementos c)
+        {
+            foreach (DataRow reader in dstinvoicexml.Tables[0].Rows)
+            {
 
-        public static void DatosComplementos(DataSet dstinvoicexml, Complementos c, Totales t, List<Item> items)
+                var INCOTERM = reader["transporte"];
+                if (INCOTERM != null)
+                {
+                    c.transporte = INCOTERM.ToString();
+                }
+            }
+        }
+
+            public static void DatosComplementos(DataSet dstinvoicexml, Complementos c, Totales t, List<Item> items)
         {
 
             Double retencionIVA = 0d;

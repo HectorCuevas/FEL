@@ -25,7 +25,7 @@ namespace FELFactura
 
         RegisterDocument ws = new RegisterDocument();
         ValidateDocument wsvalidate = new ValidateDocument();
-        INoteRegister xml = null;
+        IDocumentRegister xml = null;
         DataSet strreponsexml = new DataSet();
 
         [WebMethod]
@@ -94,24 +94,26 @@ namespace FELFactura
             }
         }
 
-        private INoteRegister abstractFactory(string tipo)
+        private IDocumentRegister abstractFactory(string tipo)
         {
+            IDocumentRegister notReg = null;
+            switch (tipo)
+            {
+                case "NCRE"://TIPO_NOTA_CREDITO = "NCRE"
+                    notReg = new XMLNotaCredito();
+                    break;
+                case "NABN"://TIPO_NOTA_ABONO = "NABN"
+                    notReg = new XMLNotasAbono();
+                    break;
+                case "NDEB"://TIPO_NOTA_DEBITO = "NDEB"
+                    notReg = new XMLNotaDebito();
+                    break;
+                default:
+                    break;
+            }
 
-            if (Constants.TIPO_NOTA_CREDITO.Equals(tipo))
-            {
-                return new XMLNotaCredito();
-            }
-            else
-            if (Constants.TIPO_NOTA_ABONO.Equals(tipo))
-            {
-                return new XMLNotasAbono();
-            }
-            else
-            {
-                return new XMLNotaDebito();
-            }
 
-            return null;
+            return notReg;
         }
         private bool validateEmply(String token, String XMLInvoice, String XMLDetailInvoce)
         {

@@ -11,7 +11,7 @@ using Modelos;
 using Firma;
 namespace FELFactura
 {
-    public class XMLFacturaCambiaria
+    public class XMLFacturaCambiaria : IDocumentRegister
     {
         
         private DataSet dstinvoicexml = new DataSet();
@@ -87,6 +87,8 @@ namespace FELFactura
 
            private String getXML()
         {
+
+            Boolean exenta = true;
             XNamespace cfc = XNamespace.Get("http://www.sat.gob.gt/dte/fel/CompCambiaria/0.1.0");
             XNamespace dte = XNamespace.Get("http://www.sat.gob.gt/dte/fel/0.1.0");
             XNamespace xd = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#");
@@ -156,13 +158,16 @@ namespace FELFactura
             DireccionReceptor.Add(DepartamentoReceptor);
             DireccionReceptor.Add(PaisReceptor);
 
+
             //frases
             XElement Frases = new XElement(dte + "Frases");
             DatosEmision.Add(Frases);
+       
+
             XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "1"));
             Frases.Add(Frase1);
             XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "2"));
-             Frases.Add(Frase2);
+            Frases.Add(Frase2);
 
             // detalle de factura 
 
@@ -212,10 +217,25 @@ namespace FELFactura
                             //Impuesto.Add(CantidadUnidadesGravables);
                             Impuesto.Add(MontoImpuesto);
                             Impuestos.Add(Impuesto);
+
+                            if ("2".Equals(im.CodigoUnidadGravable))
+                            {
+                                exenta = true;
+
+                            }
                         }                    
                  }
                }
             }
+
+            //frase cuando es una factura excenta
+            if (exenta)
+            {
+                XElement Frase3 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "4"));
+                Frases.Add(Frase3);
+
+            }
+
             //Totales
             XElement Totales = new XElement(dte + "Totales");
             DatosEmision.Add(Totales);
@@ -242,11 +262,6 @@ namespace FELFactura
                                               new XAttribute("Version", "1")
                    );
 
-                //< cfc:NumeroAbono > 1 </ cfc:NumeroAbono >
-     
-                //                     < cfc:FechaVencimiento > 2018 - 11 - 15 </ cfc:FechaVencimiento >
-              
-                //                              < cfc:MontoAbono > 100.00 </ cfc:MontoAbono >
             XElement Abono = new XElement(cfc + "Abono");
             XElement NumeroAbono = new XElement(cfc + "NumeroAbono", "1");
             XElement FechaVencimiento = new XElement(cfc + "FechaVencimiento", DateTime.Now.ToString("yyyy-MM-dd"));
@@ -258,7 +273,7 @@ namespace FELFactura
 
             Complemento.Add(AbonosFacturaCambiaria);
 
-
+         
             XDocument myXML = new XDocument(declaracion, parameters);
             String res = myXML.ToString();
           

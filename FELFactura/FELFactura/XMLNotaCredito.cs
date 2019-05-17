@@ -9,7 +9,7 @@ using Firma;
 
 namespace FELFactura
 {
-    public class XMLNotaCredito : INoteRegister
+    public class XMLNotaCredito : IDocumentRegister
     {
         private DataSet dstinvoicexml = new DataSet();
         private DataSet dstdetailinvoicexml = new DataSet();

@@ -62,7 +62,9 @@ C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\Release\FELFactura.csproj.CopyComplete
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\Release\FELFactura.dll
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FELFactura\FELFactura\obj\Release\FELFactura.pdb
-C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\System.Xml.XPath.XDocument.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.dll.config
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\FELFactura.pdb
@@ -75,11 +77,10 @@ C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\csi.rsp
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.CSharp.Core.targets
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
-C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.Managed.Core.targets
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\Microsoft.VisualBasic.Core.targets
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\System.AppContext.dll
@@ -105,7 +106,6 @@ C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\System.ValueTuple.
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\System.Xml.ReaderWriter.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\System.Xml.XmlDocument.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\System.Xml.XPath.dll
-C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\System.Xml.XPath.XDocument.dll
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\vbc.exe
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\vbc.exe.config
 C:\Users\leyla\Documents\FEL\FELFactura\FELFactura\bin\roslyn\vbc.rsp

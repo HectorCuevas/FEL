@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FELFactura
 {
-    public interface INoteRegister
+    public interface IDocumentRegister
     {
 
         String getXML(string XMLInvoice, string XMLDetailInvoce, string path, string fac_num);

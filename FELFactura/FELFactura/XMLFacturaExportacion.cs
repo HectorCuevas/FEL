@@ -1,44 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Xml;
+
 using System.Xml.Linq;
 using System.IO;
 using System.Data;
 using Modelos;
 using Firma;
-
 namespace FELFactura
 {
-    public class XMLFacturaEspecial
+    public class XMLFacturaExportacion : IDocumentRegister
     {
+        
         private DataSet dstinvoicexml = new DataSet();
         private DataSet dstdetailinvoicexml = new DataSet();
         private DatosGenerales datosGenerales = new DatosGenerales();
+        private Complementos complementos = new Complementos();
         private Emisor emisor = new Emisor();
         private Receptor receptor = new Receptor();
         private List<Item> items = new List<Item>();
         private Totales totales = new Totales();
-        private Complementos complementos = new Complementos();
-        string v_rootxml = "";
+        string v_rootxml ="";
         string fac_num = "";
         public String getXML(string XMLInvoice, string XMLDetailInvoce, string path, string fac_num)
         {
-
+            
             v_rootxml = path;
             this.fac_num = fac_num;
             //convertir a dataset los string para mayor manupulacion
-            XmlToDataSet(XMLInvoice, XMLDetailInvoce);
+            XmlToDataSet( XMLInvoice,  XMLDetailInvoce);
             //llenar estructuras
             ReaderDataset();
-
+            
             //armar xml
             getXML();
-
+            
             //firmar xml por certificado
             var nombre = fac_num.Trim() + ".xml";
             v_rootxml = v_rootxml + @"\" + nombre;
 
-            XmlDocument myXML = FirmaDocumento.FirmarDocumento(Constants.URL_CERTIFICADO, Constants.URL_CERTIFICADO_CONTRASENIA, path, nombre, path);
+            XmlDocument myXML = FirmaDocumento.FirmarDocumento(Constants.URL_CERTIFICADO, Constants.URL_CERTIFICADO_CONTRASENIA, path, nombre,  path);
 
             return myXML.InnerXml;
 
@@ -46,11 +49,11 @@ namespace FELFactura
 
 
         //Convertir XML a DataSet
-        private bool XmlToDataSet(string XMLInvoice, string XMLDetailInvoce)
+        private bool XmlToDataSet( string XMLInvoice, string XMLDetailInvoce)
         {
             try
             {
-
+                      
                 //Convieriendo XMl a DataSet Factura
                 System.IO.StringReader rdinvoice = new System.IO.StringReader(XMLInvoice);
                 dstinvoicexml.ReadXml(rdinvoice);
@@ -72,25 +75,27 @@ namespace FELFactura
         private void ReaderDataset()
         {
 
-            LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales, Constants.TIPO_FACTURA_ESPECIAL);
+            LlenarEstructuras.DatosGenerales(dstinvoicexml, datosGenerales, Constants.TIPO_FACTURA);
             LlenarEstructuras.DatosEmisor(dstinvoicexml, emisor);
             LlenarEstructuras.DatosReceptor(dstinvoicexml, receptor, datosGenerales);
             LlenarEstructuras.DatosItems(dstdetailinvoicexml, items);
             LlenarEstructuras.Totales(dstinvoicexml, totales, items);
-            LlenarEstructuras.DatosComplementos(dstinvoicexml,complementos, totales, items);
+            LlenarEstructuras.DatosFactExportacion(dstinvoicexml,  complementos);
+            
+
         }
 
+       
 
 
 
-
-        private String getXML()
+           private String getXML()
         {
+            Boolean exenta = false;
             XNamespace dte = XNamespace.Get("http://www.sat.gob.gt/dte/fel/0.1.0");
             XNamespace xd = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#");
-            XNamespace cfe = XNamespace.Get("http://www.sat.gob.gt/face2/ComplementoFacturaEspecial/0.1.0");
-            XNamespace xsi = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance");
-        
+            XNamespace ns = XNamespace.Get("http://www.sat.gob.gt/face2/ComplementoExportaciones/0.1.0");
+
             //Encabezado del Documento
             XDeclaration declaracion = new XDeclaration("1.0", "utf-8", "no");
 
@@ -112,14 +117,14 @@ namespace FELFactura
             DTE.Add(DatosEmision);
 
             //datos generales
-            XElement DatosGenerales = new XElement(dte + "DatosGenerales", new XAttribute("CodigoMoneda", this.datosGenerales.CodigoMoneda),
-                 new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision), new XAttribute("NumeroAcceso", this.datosGenerales.NumeroAcceso), new XAttribute("Tipo", this.datosGenerales.Tipo));
+            XElement DatosGenerales = new XElement(dte + "DatosGenerales", new XAttribute("CodigoMoneda", this.datosGenerales.CodigoMoneda), new XAttribute("Exp", "SI"),
+                 new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision),new XAttribute("NumeroAcceso", this.datosGenerales.NumeroAcceso), new XAttribute("Tipo", this.datosGenerales.Tipo));
             DatosEmision.Add(DatosGenerales);
 
             //datos emisor
             XElement Emisor = new XElement(dte + "Emisor", new XAttribute("AfiliacionIVA", this.emisor.AfiliacionIVA),
-                new XAttribute("CodigoEstablecimiento", this.emisor.CodigoEstablecimiento),
-                new XAttribute("CorreoEmisor", this.emisor.CorreoEmisor), new XAttribute("NITEmisor", this.emisor.NITEmisor),
+                new XAttribute("CodigoEstablecimiento", this.emisor.CodigoEstablecimiento), 
+                new XAttribute("CorreoEmisor", this.emisor.CorreoEmisor), new XAttribute("NITEmisor", this.emisor.NITEmisor), 
                 new XAttribute("NombreComercial", this.emisor.NombreComercial), new XAttribute("NombreEmisor", this.emisor.NombreEmisor));
             DatosEmision.Add(Emisor);
             //direccion del emisor
@@ -138,9 +143,8 @@ namespace FELFactura
             DireccionEmisor.Add(Pais);
 
             //datos Receptor
-            XElement Receptor = new XElement(dte + "Receptor", new XAttribute("CorreoReceptor", this.receptor.CorreoReceptor),
-                new XAttribute("IDReceptor", this.receptor.IDReceptor),
-                 new XAttribute("TipoEspecial", "CUI"),
+            XElement Receptor = new XElement(dte + "Receptor", new XAttribute("CorreoReceptor", this.receptor.CorreoReceptor), 
+                new XAttribute("IDReceptor", "CF"),
                 new XAttribute("NombreReceptor", this.receptor.NombreReceptor));
             DatosEmision.Add(Receptor);
             //direccion del receptor
@@ -158,17 +162,22 @@ namespace FELFactura
             DireccionReceptor.Add(DepartamentoReceptor);
             DireccionReceptor.Add(PaisReceptor);
 
-          
+            //frases
+            XElement Frases = new XElement(dte + "Frases");
+            DatosEmision.Add(Frases);
+
+            XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "1"));
+            Frases.Add(Frase1);
+            XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "2"));
+            Frases.Add(Frase2);
+
             // detalle de factura 
 
             XElement Items = new XElement(dte + "Items");
             DatosEmision.Add(Items);
-            if (this.items != null)
-            {
-                foreach (Item item in this.items)
-                {
+            if (this.items!=null) {
+                foreach (Item item in this.items) {
                     //Items
-
 
                     //item
                     XElement Item = new XElement(dte + "Item", new XAttribute("BienOServicio", item.BienOServicio), new XAttribute("NumeroLinea", item.NumeroLinea));
@@ -195,15 +204,13 @@ namespace FELFactura
 
 
                     //impuesto por item
-                    if (item.impuestos != null)
-                    {
-                        foreach (Impuesto im in item.impuestos)
-                        {
+                 if (item.impuestos != null) {
+                        foreach (Impuesto im in item.impuestos) {
                             XElement Impuesto = new XElement(dte + "Impuesto");
                             XElement NombreCorto = new XElement(dte + "NombreCorto", im.NombreCorto);
                             XElement CodigoUnidadGravable = new XElement(dte + "CodigoUnidadGravable", im.CodigoUnidadGravable);
                             XElement MontoGravable = new XElement(dte + "MontoGravable", im.MontoGravable);
-                            //  XElement CantidadUnidadesGravables = new XElement(dte + "CantidadUnidadesGravables", im.CantidadUnidadesGravables);
+                          //  XElement CantidadUnidadesGravables = new XElement(dte + "CantidadUnidadesGravables", im.CantidadUnidadesGravables);
                             XElement MontoImpuesto = new XElement(dte + "MontoImpuesto", im.MontoImpuesto);
                             Impuesto.Add(NombreCorto);
                             Impuesto.Add(CodigoUnidadGravable);
@@ -211,33 +218,26 @@ namespace FELFactura
                             //Impuesto.Add(CantidadUnidadesGravables);
                             Impuesto.Add(MontoImpuesto);
                             Impuestos.Add(Impuesto);
-                        }
-                    }
-                }
+
+                            if ("2".Equals(im.CodigoUnidadGravable))
+                            {
+                                    exenta = true;
+                                
+                            }
+                        }                    
+                 }
+               }
+            }
+
+            if (exenta)
+            {
+                XElement Frase3 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "4"));
+                Frases.Add(Frase3);
+
             }
             //Totales
             XElement Totales = new XElement(dte + "Totales");
             DatosEmision.Add(Totales);
-
-            //Complementos de retenciones
-            XElement Complementos = new XElement(dte + "Complementos");
-            DatosEmision.Add(Complementos);
-            XElement Complemento = new XElement(dte + "Complemento", new XAttribute("NombreComplemento", "ncomp"), new XAttribute("URIComplemento", "http://www.sat.gob.gt/face2/ComplementoFacturaEspecial/0.1.0"));
-            Complementos.Add(Complemento);
-
-            XElement RetencionesFacturaEspecial = new XElement(cfe + "RetencionesFacturaEspecial", 
-                           new XAttribute(XNamespace.Xmlns + "cfe", cfe.NamespaceName),
-                           new XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
-                           new XAttribute( "Version", "1")
-                   );
-            Complemento.Add(RetencionesFacturaEspecial);
-
-            XElement RetencionISR = new XElement(cfe + "RetencionISR",complementos.RetencionISR);
-            XElement RetencionIVA = new XElement(cfe + "RetencionIVA", complementos.RetencionIVA);
-            XElement TotalMenosRetenciones = new XElement(cfe + "TotalMenosRetenciones", complementos.TotalMenosRetenciones);
-            RetencionesFacturaEspecial.Add(RetencionISR);
-            RetencionesFacturaEspecial.Add(RetencionIVA);
-            RetencionesFacturaEspecial.Add(TotalMenosRetenciones);
 
             //total impuestos
             XElement TotalImpuestos = new XElement(dte + "TotalImpuestos");
@@ -249,17 +249,47 @@ namespace FELFactura
             XElement GranTotal = new XElement(dte + "GranTotal", totales.GranTotal);
             Totales.Add(GranTotal);
 
+            XElement Complementos = new XElement(dte + "Complementos");
+            DatosEmision.Add(Complementos);
+            XElement Complemento = new XElement(dte + "Complemento", new XAttribute("NombreComplemento", "ncomp"), new XAttribute("URIComplemento", "http://www.sat.gob.gt/face2/ComplementoExportaciones/0.1.0"));
+            Complementos.Add(Complemento);
+            XElement Exportacion = new XElement(ns + "Exportacion",
+                new XAttribute(XNamespace.Xmlns + "ns", ns.NamespaceName),
 
+                                              new XAttribute("Version", "1")
+                   );
+            Complemento.Add(Exportacion);
+
+            XElement NombreConsignatarioODestinatario = new XElement(ns + "NombreConsignatarioODestinatario", this.receptor.NombreReceptor);
+            XElement DireccionConsignatarioODestinatario = new XElement(ns + "DireccionConsignatarioODestinatario", this.receptor.Direccion);
+            XElement CodigoConsignatarioODestinatario = new XElement(ns + "CodigoConsignatarioODestinatario", this.receptor.IDReceptor);
+            XElement NombreComprador = new XElement(ns + "NombreComprador", this.receptor.NombreReceptor);
+            XElement DireccionComprador = new XElement(ns + "DireccionComprador", this.receptor.Direccion);
+            XElement CodigoComprador = new XElement(ns + "CodigoComprador", this.receptor.IDReceptor);
+            XElement OtraReferencia = new XElement(ns + "OtraReferencia", complementos.OtraReferencia);
+            XElement INCOTERM = new XElement(ns + "INCOTERM", complementos.transporte);
+            XElement NombreExportador = new XElement(ns + "NombreExportador", complementos.NombreExportador);
+            XElement CodigoExportador = new XElement(ns + "CodigoExportador", complementos.CodigoExportador);
+            Exportacion.Add(NombreConsignatarioODestinatario);
+            Exportacion.Add(DireccionConsignatarioODestinatario);
+            Exportacion.Add(CodigoConsignatarioODestinatario);
+            Exportacion.Add(NombreComprador);
+            Exportacion.Add(DireccionComprador);
+            Exportacion.Add(CodigoComprador);
+            Exportacion.Add(OtraReferencia);
+            Exportacion.Add(INCOTERM);
+            Exportacion.Add(NombreExportador);
+            Exportacion.Add(CodigoExportador);
 
             XDocument myXML = new XDocument(declaracion, parameters);
             String res = myXML.ToString();
-          
+        
             try
             {
                 v_rootxml = string.Format(@"{0}\{1}.xml", v_rootxml, fac_num.Trim());
                 if (!File.Exists(v_rootxml))
                 {
-
+                    
                     myXML.Save(v_rootxml);
                 }
                 else
@@ -275,6 +305,5 @@ namespace FELFactura
             }
             return res;
         }
-
-    }
+        }
 }

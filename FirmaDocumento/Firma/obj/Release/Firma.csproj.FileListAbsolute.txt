@@ -39,12 +39,12 @@ C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FirmaDocumento\Firma\obj\R
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FirmaDocumento\Firma\obj\Release\Firma.csproj.CopyComplete
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FirmaDocumento\Firma\obj\Release\Firma.dll
 C:\Users\leyla\Dropbox\universidad\prosisco\proyectos\FirmaDocumento\Firma\obj\Release\Firma.pdb
-C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Release\BouncyCastle.Crypto.pdb
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Release\Firma.dll
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Release\Firma.pdb
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Release\BouncyCastle.Crypto.dll
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Release\FirmaXadesNet.dll
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Release\Microsoft.Xades.dll
+C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\bin\Release\BouncyCastle.Crypto.pdb
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Release\Firma.csproj.CoreCompileInputs.cache
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Release\Firma.csproj.CopyComplete
 C:\Users\leyla\Documents\FEL\FirmaDocumento\Firma\obj\Release\Firma.dll
