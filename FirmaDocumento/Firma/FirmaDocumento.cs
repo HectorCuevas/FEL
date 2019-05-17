@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.Text;
 using FirmaXadesNet.Validation;
-
+using System;
 namespace Firma
 {
     public static class FirmaDocumento
@@ -15,19 +15,26 @@ namespace Firma
         //Invocación de la firma de documento, retorno  y almacenamiento de este
         public static XmlDocument FirmarDocumento(string rutaCertificado, string contraseñaCertificado, string rutaDocumento, string nombreDocumento, string ubicacionDestino)
         {
-            X509Certificate2 cert = new X509Certificate2(rutaCertificado, contraseñaCertificado, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
-
-            SignatureParameters parametros = ParametrosdeFirma("DatosEmision");
-            var nombredocumento = nombreDocumento;
-            System.DateTime fecha = System.DateTime.Now;
-            //se demora la firma 1 minuto
-            parametros.SigningDate = fecha.AddSeconds(-120);
-            using (parametros.Signer = new Signer(cert))
+            try
             {
-                var documento = FirmaXades(parametros, rutaDocumento+ nombreDocumento);
-                System.IO.File.Delete(rutaDocumento+ nombredocumento);
-                AlmacenamientoDocumento(documento, ubicacionDestino, nombredocumento);
-                return documento.Document;
+                X509Certificate2 cert = new X509Certificate2(rutaCertificado, contraseñaCertificado, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
+
+                SignatureParameters parametros = ParametrosdeFirma("DatosEmision");
+                var nombredocumento = nombreDocumento;
+                System.DateTime fecha = System.DateTime.Now;
+                //se demora la firma 1 minuto
+                parametros.SigningDate = fecha.AddSeconds(-120);
+                using (parametros.Signer = new Signer(cert))
+                {
+                    var documento = FirmaXades(parametros, rutaDocumento + nombreDocumento);
+                    System.IO.File.Delete(rutaDocumento + nombredocumento);
+                    AlmacenamientoDocumento(documento, ubicacionDestino, nombredocumento);
+                    return documento.Document;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
         public static XmlDocument FirmarAnulacion(string rutaCertificado, string contraseñaCertificado, string rutaDocumento, string ubicacionDestino)
@@ -71,12 +78,20 @@ namespace Firma
         //Firma del documento
         private static SignatureDocument FirmaXades(SignatureParameters sp, string ruta)
         {
-            XadesService xadesService = new XadesService();
-            using (FileStream fs = new FileStream(ruta, FileMode.Open))
+            try
             {
-                var documento = xadesService.Sign(fs, sp);
-                MoverNodoFirma(documento);
-                return documento;
+                XadesService xadesService = new XadesService();
+                using (FileStream fs = new FileStream(ruta, FileMode.Open))
+                {
+                    var documento = xadesService.Sign(fs, sp);
+                    MoverNodoFirma(documento);
+                    return documento;
+                }
+            }
+            catch (Exception e)
+            {
+
+                return null;
             }
         }
 
