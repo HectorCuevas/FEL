@@ -112,7 +112,7 @@ namespace FELFactura
 
             //datos generales
             XElement DatosGenerales = new XElement(dte + "DatosGenerales", new XAttribute("CodigoMoneda", this.datosGenerales.CodigoMoneda),
-                 new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision),new XAttribute("NumeroAcceso", this.datosGenerales.NumeroAcceso), new XAttribute("Tipo", this.datosGenerales.Tipo));
+                 new XAttribute("FechaHoraEmision", this.datosGenerales.FechaHoraEmision), new XAttribute("Tipo", this.datosGenerales.Tipo));
             DatosEmision.Add(DatosGenerales);
 
             //datos emisor
@@ -161,7 +161,8 @@ namespace FELFactura
             DatosEmision.Add(Frases);
             XElement Frase1 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "1"));
             Frases.Add(Frase1);
-
+            XElement Frase2 = new XElement(dte + "Frase", new XAttribute("CodigoEscenario", "1"), new XAttribute("TipoFrase", "2"));
+            Frases.Add(Frase2);
 
             // detalle de factura 
 

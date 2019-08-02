@@ -19,16 +19,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:07:04</publishTime>
     </File>
     <File Include="bin/FELFactura.dll">
-      <publishTime>05/16/2019 22:17:30</publishTime>
+      <publishTime>05/28/2019 17:29:24</publishTime>
     </File>
     <File Include="bin/FELFactura.pdb">
-      <publishTime>05/16/2019 22:17:30</publishTime>
+      <publishTime>05/28/2019 17:29:24</publishTime>
     </File>
     <File Include="bin/Firma.dll">
-      <publishTime>05/16/2019 22:17:08</publishTime>
+      <publishTime>05/28/2019 17:29:23</publishTime>
     </File>
     <File Include="bin/Firma.pdb">
-      <publishTime>05/16/2019 22:17:08</publishTime>
+      <publishTime>05/28/2019 17:29:23</publishTime>
     </File>
     <File Include="bin/FirmaXadesNet.dll">
       <publishTime>02/19/2019 15:06:08</publishTime>
@@ -40,10 +40,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2019 15:06:06</publishTime>
     </File>
     <File Include="bin/Modelos.dll">
-      <publishTime>05/16/2019 22:17:08</publishTime>
+      <publishTime>05/28/2019 17:29:23</publishTime>
     </File>
     <File Include="bin/Modelos.pdb">
-      <publishTime>05/16/2019 22:17:08</publishTime>
+      <publishTime>05/28/2019 17:29:23</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/24/2018 13:38:22</publishTime>
@@ -184,25 +184,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="CreditNoteWS.asmx">
-      <publishTime>04/25/2019 10:39:35</publishTime>
+      <publishTime>05/20/2019 17:40:11</publishTime>
     </File>
     <File Include="DebitNoteWS.asmx">
-      <publishTime>04/25/2019 10:39:35</publishTime>
+      <publishTime>05/20/2019 17:40:11</publishTime>
     </File>
     <File Include="NoteRegisterWS.asmx">
-      <publishTime>04/25/2019 10:39:35</publishTime>
+      <publishTime>05/20/2019 17:40:11</publishTime>
     </File>
     <File Include="PaymentNoteWS.asmx">
-      <publishTime>04/25/2019 10:39:35</publishTime>
+      <publishTime>05/20/2019 17:40:11</publishTime>
     </File>
     <File Include="RegisterDocumentWS.asmx">
       <publishTime>02/26/2019 13:21:34</publishTime>
     </File>
     <File Include="RegisterInvoiceWS.asmx">
-      <publishTime>04/25/2019 10:39:35</publishTime>
+      <publishTime>05/20/2019 17:40:11</publishTime>
     </File>
     <File Include="RegisterSpecialInvoiceWS.asmx">
-      <publishTime>04/25/2019 10:39:35</publishTime>
+      <publishTime>05/20/2019 17:40:11</publishTime>
     </File>
     <File Include="SolicitarToken.asmx">
       <publishTime>02/25/2019 21:28:54</publishTime>
